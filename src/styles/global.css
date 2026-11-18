@@ -184,7 +184,10 @@ h4 { font-size: 1.05rem; font-stretch: 100%; }
   .menu-toggle { display: inline-flex; }
   .header-cta { display: none; }
   .primary-nav {
-    position: fixed; inset: 76px 0 0 0; background: #fff; padding: 12px var(--gutter) 32px; overflow-y: auto;
+    position: fixed; top: 76px; left: 0; right: 0; bottom: 0; background: #fff; overflow-y: auto; overscroll-behavior: contain;
+    /* Cover the whole screen even while mobile browser toolbars collapse or expand. */
+    min-height: calc(100vh - 76px); min-height: calc(100lvh - 76px);
+    padding: 12px var(--gutter) 32px; padding-bottom: calc(32px + 100lvh - 100svh);
     opacity: 0; transform: translateY(-6px); visibility: hidden; transition: opacity .2s ease, transform .2s ease, visibility .2s;
     border-top: 1px solid var(--line);
   }
@@ -197,7 +200,11 @@ h4 { font-size: 1.05rem; font-stretch: 100%; }
   .has-sub.is-open > .submenu { display: block; }
   .submenu a { min-height: 48px; font-size: 1rem; }
   .mobile-cta { display: grid; gap: 12px; margin-top: 24px; }
-  .nav-open { overflow: hidden; }
+  /* Lock page scroll on the root only: locking <body> too would turn it into a scroll
+     container and break the sticky header, hiding the close button. */
+  html.nav-open { overflow: hidden; }
+  .primary-nav .mobile-cta .btn { width: 100%; justify-content: center; min-height: 52px; padding: 12px 22px; border-radius: 999px; font-weight: 600; font-size: 1rem; background: var(--clay); color: #fff; border: 2px solid var(--clay); box-shadow: none; }
+  .primary-nav .mobile-cta .btn--ghost { background: #fff; color: var(--ink); border-color: var(--ink); }
 }
 @media (min-width: 1101px) { .mobile-cta { display: none !important; } }
 
