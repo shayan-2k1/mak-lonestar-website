@@ -1,4 +1,5 @@
 ---
+import { abs } from '../../lib/url';
 import Base from '../../layouts/Base.astro';
 import PageHero from '../../components/PageHero.astro';
 import ServiceCard from '../../components/ServiceCard.astro';
@@ -6,11 +7,10 @@ import Icon from '../../components/Icon.astro';
 import { services } from '../../data/services';
 import { site } from '../../data/site';
 const crumbs = [{ name: 'Services', href: '/services/' }];
-const siteUrl = Astro.site!;
 const schema = [{
   '@type': 'ItemList',
   name: 'MAK Lonestar services',
-  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: new URL(s.href, siteUrl).href })),
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: abs(s.href) })),
 }];
 const stages = [
   { stage: 'Before you buy or design', items: ['Environmental site evaluation', 'Geotechnical investigation and borings', 'Foundation and pavement recommendations'] },

@@ -1,8 +1,9 @@
 ---
+import { stripBase } from '../lib/url';
 import Logo from './Logo.astro';
 import Icon from './Icon.astro';
 import { nav, site } from '../data/site';
-const path = Astro.url.pathname;
+const path = stripBase(Astro.url.pathname);
 const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href);
 const inSection = (href: string) => href !== '/' && path.startsWith(href);
 ---

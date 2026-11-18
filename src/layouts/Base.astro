@@ -1,4 +1,5 @@
 ---
+import { abs, stripBase } from '../lib/url';
 import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
@@ -17,11 +18,10 @@ interface Props {
 }
 
 const { title, description, crumbs = [], schema = [], ogImage = '/og-default.png', cta = true, noindex = false } = Astro.props;
-const siteUrl = Astro.site ?? new URL('https://maklonestar.com');
-const canonical = new URL(Astro.url.pathname, siteUrl).href;
-const ogImageUrl = new URL(ogImage, siteUrl).href;
+const canonical = abs(stripBase(Astro.url.pathname));
+const ogImageUrl = abs(ogImage);
 const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' && !noindex;
-const orgId = new URL('/#organization', siteUrl).href;
+const orgId = abs('/#organization');
 
 const graph: Record<string, unknown>[] = [
   {
@@ -29,8 +29,8 @@ const graph: Record<string, unknown>[] = [
     '@id': orgId,
     name: site.legalName,
     alternateName: site.name,
-    url: siteUrl.href,
-    logo: new URL('/favicon.svg', siteUrl).href,
+    url: abs('/'),
+    logo: abs('/favicon.svg'),
     image: ogImageUrl,
     description: 'Texas-registered engineering firm (TBPE Firm F-24443) providing geotechnical engineering, construction materials testing, geotechnical and environmental drilling, and environmental engineering across Dallas–Fort Worth and North Texas.',
     foundingDate: site.founded,
@@ -53,13 +53,13 @@ const graph: Record<string, unknown>[] = [
     knowsAbout: ['Geotechnical engineering', 'Construction materials testing', 'Special inspection', 'Geotechnical drilling', 'Environmental engineering', 'Expansive soils'],
     ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
   },
-  { '@type': 'WebSite', '@id': new URL('/#website', siteUrl).href, url: siteUrl.href, name: site.legalName, publisher: { '@id': orgId } },
+  { '@type': 'WebSite', '@id': abs('/#website'), url: abs('/'), name: site.legalName, publisher: { '@id': orgId } },
 ];
 if (crumbs.length) {
   graph.push({
     '@type': 'BreadcrumbList',
     itemListElement: [{ name: 'Home', href: '/' }, ...crumbs].map((c, i) => ({
-      '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.href, siteUrl).href,
+      '@type': 'ListItem', position: i + 1, name: c.name, item: abs(c.href),
     })),
   });
 }

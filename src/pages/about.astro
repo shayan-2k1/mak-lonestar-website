@@ -1,4 +1,5 @@
 ---
+import { abs } from '../lib/url';
 import Base from '../layouts/Base.astro';
 import PageHero from '../components/PageHero.astro';
 import Faq from '../components/Faq.astro';
@@ -12,7 +13,7 @@ const faqs = [
   { q: 'Who are your clients?', a: 'Developers and property owners, general contractors, architects and structural engineers, and municipal and public agencies.' },
 ];
 const schema = [{ '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
-  { '@type': 'AboutPage', name: 'About MAK Lonestar Consulting', url: new URL('/about/', Astro.site!).href, about: { '@id': new URL('/#organization', Astro.site!).href } }];
+  { '@type': 'AboutPage', name: 'About MAK Lonestar Consulting', url: abs('/about/'), about: { '@id': abs('/#organization') } }];
 const principles = [
   { t: 'One team, start to finish', d: 'A project stays with the same people from the first phone call to the final report. No handoffs between a drill crew, a lab and an engineering group that never met.' },
   { t: 'Site-specific answers', d: 'Conclusions are drawn from your site’s data, not carried over from the property next door. When a site needs more investigation, we say so.' },

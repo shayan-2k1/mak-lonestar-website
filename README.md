@@ -83,6 +83,7 @@ Copy `.env.example` to `.env` for local work, and set the same variables in your
 |---|---|---|
 | `SITE_URL` | `https://maklonestar.com` | Canonical origin for canonical tags, OG URLs and the sitemap. |
 | `PUBLIC_ALLOW_INDEXING` | `false` | `false` adds `noindex` and a disallow-all `robots.txt`, so previews never compete with the live site. Set to `true` **only** on the production deployment. |
+| `BASE_PATH` | `/` | Sub-folder the site is served from. Only for GitHub Pages project sites (set by the workflow). |
 | `PUBLIC_FORM_ENDPOINT` | *(empty)* | URL that accepts `multipart/form-data` POSTs. Empty = demonstration mode (forms validate, then clearly say nothing was sent). |
 
 No secrets are stored in the code. The form endpoint URL is public by design, so use a service that protects against spam (honeypot field `company_website` is already included).
@@ -111,6 +112,14 @@ Each submission includes `_form` (`proposal`, `contact` or `careers`) and `_page
 4. Deploy. Share the `*.vercel.app` URL with the owner.
 
 `vercel.json` already contains the legacy-URL redirects, security headers and long-term caching for fonts and assets.
+
+### GitHub Pages (current preview)
+
+The repository deploys itself to GitHub Pages on every push to `main` (`.github/workflows/deploy-pages.yml`). The workflow builds with `BASE_PATH=/<repo-name>` because GitHub serves project sites from a sub-folder, and an integration (`integrations/base-path.mjs`) prefixes every internal link with it.
+
+- Live preview: `https://<owner>.github.io/<repo-name>/`
+- To connect the forms, add a repository variable `PUBLIC_FORM_ENDPOINT` (Settings → Secrets and variables → Actions → Variables) and re-run the workflow.
+- GitHub Pages cannot do server redirects, so the legacy-URL 301s in `vercel.json` / `_redirects` only apply on Vercel or Netlify.
 
 ### Netlify (alternative)
 
