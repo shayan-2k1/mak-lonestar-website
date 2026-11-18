@@ -1,0 +1,109 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Icon from '../components/Icon.astro';
+const crumbs = [{ name: 'Industries', href: '/industries/' }];
+const groups = [
+  {
+    id: 'developers',
+    title: 'Developers and property owners',
+    lead: 'Decisions from site selection through construction depend on what is below the surface. We give you that information early, when it is cheapest to act on.',
+    points: [
+      ['Due-diligence investigations', 'Understand soil and environmental conditions before you close.'],
+      ['Foundation options compared', 'Slab-on-grade, pier-and-beam or drilled piers, with the trade-offs explained.'],
+      ['Cost-aware recommendations', 'Subgrade treatments sized to the site rather than to a worst case.'],
+      ['Verification during construction', 'Independent testing that the work matches the design.'],
+    ],
+    links: [['Geotechnical engineering', '/services/geotechnical-engineering/'], ['Environmental engineering', '/services/environmental-engineering/']],
+  },
+  {
+    id: 'contractors',
+    title: 'General contractors',
+    lead: 'Testing and inspection should protect your schedule, not hold it up. We coordinate field services around your pours and inspections and report results the same day they matter.',
+    points: [
+      ['Dispatch around your schedule', 'Book with 24 hours’ notice; technicians work to your pour and inspection windows.'],
+      ['Immediate communication', 'Failing or borderline results go to your team on the spot.'],
+      ['Special inspection', 'IBC special inspection documented for the building official.'],
+      ['Closeout-ready records', 'A complete testing record when the project wraps up.'],
+    ],
+    links: [['Construction materials testing', '/services/construction-materials-testing/'], ['Request a proposal', '/request-a-proposal/']],
+  },
+  {
+    id: 'design',
+    title: 'Architects and structural engineers',
+    lead: 'Recommendations are only useful if they can go straight into design. Our reports are written for the people who have to use them.',
+    points: [
+      ['Usable design parameters', 'Bearing, uplift, PVR and lateral parameters stated clearly.'],
+      ['Early footing review', 'Including isolated footings for pre-engineered metal buildings.'],
+      ['Direct engineer access', 'Talk to the engineer responsible for the recommendations.'],
+      ['Drilling support', 'Borings and sampling for firms running their own analysis.'],
+    ],
+    links: [['Geotechnical engineering', '/services/geotechnical-engineering/'], ['Geotechnical drilling', '/services/geotechnical-drilling/']],
+  },
+  {
+    id: 'public',
+    title: 'Municipal and government agencies',
+    lead: 'Public projects carry their own documentation requirements. We support roadway, pavement, utility and municipal facility work across North Texas with that in mind.',
+    points: [
+      ['Agency-format documentation', 'Testing that follows TxDOT, AASHTO and NCTCOG procedures where required.'],
+      ['Pavement and utility work', 'Subgrade, base and asphalt testing for roadway and utility projects.'],
+      ['MBE participation', 'A certified Minority Business Enterprise for supplier-diversity goals.'],
+      ['Registered firm', 'TBPE Registered Engineering Firm F-24443 with a licensed P.E. in responsible charge.'],
+    ],
+    links: [['Construction materials testing', '/services/construction-materials-testing/'], ['About our credentials', '/about/']],
+  },
+];
+const sectors = ['Warehouses and industrial', 'Hotels and hospitality', 'Schools and education', 'Retail centers and restaurants', 'Fuel stations and convenience stores', 'Municipal facilities and roadways', 'Residential'];
+---
+<Base
+  title="Industries & Clients We Serve | MAK Lonestar Consulting"
+  description="Geotechnical engineering and materials testing for developers, general contractors, design professionals and municipal agencies across Dallas–Fort Worth."
+  crumbs={crumbs}
+>
+  <PageHero
+    title="Who we serve"
+    lead="Developers, contractors, design professionals and public agencies need different things from the same soil data. Here is how we work with each of them."
+    kicker="Industries"
+    crumbs={crumbs}
+  >
+    <nav slot="actions" class="jump" aria-label="Jump to a client type">
+      {groups.map((g) => <a href={`#${g.id}`}>{g.title}</a>)}
+    </nav>
+  </PageHero>
+
+  {groups.map((g, i) => (
+    <section class:list={['band', { 'band--stone': i % 2 === 1 }]} id={g.id} aria-labelledby={`${g.id}-title`}>
+      <div class="wrap two-col wide-left">
+        <div>
+          <h2 id={`${g.id}-title`}>{g.title}</h2>
+          <p class="lead">{g.lead}</p>
+          <div class="btn-row links">
+            {g.links.map(([t, h]) => <a class="link-arrow" href={h}>{t}<Icon name="arrow" /></a>)}
+          </div>
+        </div>
+        <ul class="checklist">
+          {g.points.map(([t, d]) => <li><b>{t}</b>{d}</li>)}
+        </ul>
+      </div>
+    </section>
+  ))}
+
+  <section class="band band--ink" aria-labelledby="sec-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Project types</p><h2 id="sec-title">Sectors we support</h2></div>
+        <p class="lead">From single-building sites to multi-acre developments.</p>
+      </div>
+      <ul class="sector-list">{sectors.map((s) => <li>{s}</li>)}</ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; }
+  .jump a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 16px; border-radius: 999px; background: #fff; border: 1px solid var(--stone-2); color: var(--text); text-decoration: none; font-weight: 500; }
+  .jump a:hover { border-color: var(--ink); }
+  .links { margin-top: 8px; gap: 22px; }
+  .sector-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+  .sector-list li { padding: 18px 20px; border: 1px solid var(--ink-3); border-radius: var(--radius); background: var(--ink-2); font: 600 1.05rem/1.3 var(--font-head); font-stretch: 104%; }
+</style>

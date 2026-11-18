@@ -1,0 +1,14 @@
+---
+interface Props { id: string; name: string; label: string; options: { value: string; label: string; service?: string }[]; type?: 'checkbox' | 'radio'; required?: boolean; hint?: string }
+const { id, name, label, options, type = 'checkbox', required = false, hint } = Astro.props;
+---
+<div class="field" data-group={name} data-required={required ? '' : undefined} role="group" aria-labelledby={`${id}-label`} aria-describedby={`${id}-error${hint ? ` ${id}-hint` : ''}`}>
+  <span class="label" id={`${id}-label`}>{label}{required && <span class="req"> *<span class="visually-hidden">(required)</span></span>}</span>
+  {hint && <span class="hint" id={`${id}-hint`}>{hint}</span>}
+  <div class="chips">
+    {options.map((o, i) => (
+      <label class="chip"><input type={type} name={name} value={o.value} id={i === 0 ? id : undefined} data-service={o.service} /><span>{o.label}</span></label>
+    ))}
+  </div>
+  <span class="error" id={`${id}-error`} aria-live="polite"></span>
+</div>

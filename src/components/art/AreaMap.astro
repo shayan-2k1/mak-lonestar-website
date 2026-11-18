@@ -1,0 +1,41 @@
+---
+// Tile map of the 12 core Dallas–Fort Worth Metroplex counties (schematic, not to scale),
+// with the Irving office and the published DFW project locations marked.
+const tiles = [
+  ['Wise', 0, 0], ['Denton', 1, 0], ['Collin', 2, 0], ['Hunt', 3, 0],
+  ['Parker', 0, 1], ['Tarrant', 1, 1], ['Dallas', 2, 1], ['Rockwall', 3, 1],
+  ['Hood', 0, 2], ['Johnson', 1, 2], ['Ellis', 2, 2], ['Kaufman', 3, 2],
+] as const;
+const W = 150, H = 110, G = 8, X0 = 20, Y0 = 20;
+const pos = (c: number, r: number) => ({ x: X0 + c * (W + G), y: Y0 + r * (H + G) });
+const hasWork = ['Dallas', 'Tarrant', 'Rockwall'];
+---
+<svg viewBox="0 0 652 394" role="img" aria-label="Schematic tile map of the Dallas–Fort Worth Metroplex counties. The MAK Lonestar office is in Irving, Dallas County. Published project locations are marked in Arlington (Tarrant County) and Rockwall (Rockwall County); a third, in Irving, sits beside the office." class="area-map">
+  <rect width="652" height="394" rx="18" fill="#13201b" />
+  {tiles.map(([name, c, r]) => {
+    const p = pos(c, r);
+    const work = hasWork.includes(name);
+    return (
+      <g>
+        <rect x={p.x} y={p.y} width={W} height={H} rx="10" fill={work ? '#2f4038' : '#1d2c26'} stroke={work ? '#6e8279' : '#2a3b34'} />
+        <text x={p.x + 14} y={p.y + 26} font-family="Public Sans, system-ui, sans-serif" font-size="15" font-weight="600" fill="#eef0ea">{name}</text>
+        <text x={p.x + 14} y={p.y + 44} font-family="Public Sans, system-ui, sans-serif" font-size="12" fill="#9aa69f">County</text>
+      </g>
+    );
+  })}
+  <!-- Irving office (west Dallas County) -->
+  <g transform="translate(346 214)">
+    <circle r="16" fill="#b0491f" opacity=".25" /><circle r="8" fill="#b0491f" stroke="#fff" stroke-width="2.5" />
+  </g>
+  <text x="364" y="219" font-family="Public Sans, system-ui, sans-serif" font-size="13" font-weight="700" fill="#fff">Irving office</text>
+  <text x="364" y="236" font-family="Public Sans, system-ui, sans-serif" font-size="12" fill="#cbc2ae">+ Irving project</text>
+  <!-- project markers -->
+  <g fill="#cbc2ae" stroke="#13201b" stroke-width="2">
+    <circle cx="566" cy="196" r="6" />
+    <circle cx="262" cy="230" r="6" />
+  </g>
+  <g font-family="Public Sans, system-ui, sans-serif" font-size="12" fill="#cbc2ae">
+    <text x="530" y="216">Rockwall</text><text x="226" y="250">Arlington</text>
+  </g>
+</svg>
+<style>.area-map { width: 100%; height: auto; }</style>

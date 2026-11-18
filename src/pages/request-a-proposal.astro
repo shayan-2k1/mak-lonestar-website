@@ -1,0 +1,111 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FormShell from '../components/form/FormShell.astro';
+import Field from '../components/form/Field.astro';
+import Chips from '../components/form/Chips.astro';
+import FileDrop from '../components/form/FileDrop.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'Request a proposal', href: '/request-a-proposal/' }];
+const serviceOptions = [
+  { value: 'Geotechnical investigation', label: 'Geotechnical investigation', service: 'geotechnical-engineering' },
+  { value: 'Construction materials testing', label: 'Construction materials testing', service: 'construction-materials-testing' },
+  { value: 'Special inspection (IBC)', label: 'Special inspection (IBC)' },
+  { value: 'Geotechnical / environmental drilling', label: 'Drilling only', service: 'geotechnical-drilling' },
+  { value: 'Environmental site evaluation', label: 'Environmental site evaluation', service: 'environmental-engineering' },
+  { value: 'Not sure yet', label: 'Not sure yet' },
+];
+---
+<Base
+  title="Request a Proposal | MAK Lonestar Consulting"
+  description="Send your site plan, drawings or RFP to MAK Lonestar for a geotechnical engineering, materials testing, drilling or environmental proposal in Dallas–Fort Worth."
+  crumbs={crumbs}
+  cta={false}
+>
+  <PageHero
+    title="Request a proposal"
+    lead="Tell us about the project and attach whatever you have: a site plan, survey, drawings or the RFP. We review the scope before we follow up, so the proposal fits the site."
+    kicker="Start a project"
+    crumbs={crumbs}
+  />
+
+  <section class="band">
+    <div class="wrap two-col wide-left">
+      <FormShell name="proposal" submitLabel="Send proposal request" note="We use your project details only to prepare a proposal.">
+        <fieldset>
+          <legend><span class="step" aria-hidden="true">1</span>About you</legend>
+          <div class="row">
+            <Field id="p-name" name="name" label="Full name" required autocomplete="name" />
+            <Field id="p-company" name="company" label="Company or agency" required autocomplete="organization" />
+          </div>
+          <div class="row">
+            <Field id="p-email" name="email" label="Email" type="email" required autocomplete="email" inputmode="email" />
+            <Field id="p-phone" name="phone" label="Phone" type="tel" required autocomplete="tel" inputmode="tel" />
+          </div>
+          <Field id="p-role" name="role" label="Your role" as="select" required options={['Owner / developer', 'General contractor', 'Architect / engineer', 'Municipality / public agency', 'Lender / buyer', 'Other']} />
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="step" aria-hidden="true">2</span>The project</legend>
+          <div class="row">
+            <Field id="p-project" name="project_name" label="Project name" required />
+            <Field id="p-type" name="project_type" label="Project type" as="select" options={['Commercial / office', 'Industrial / warehouse', 'Retail / fuel', 'Hospitality', 'Education', 'Residential', 'Municipal / infrastructure', 'Other']} />
+          </div>
+          <Field id="p-address" name="project_address" label="Project address or location" required hint="Street address, intersection or parcel, and city." autocomplete="street-address" />
+          <div class="row">
+            <Field id="p-size" name="project_size" label="Approximate size" hint="For example: 4.5 acres, 60,000 sf building." />
+            <Field id="p-stage" name="stage" label="Project stage" as="select" options={['Due diligence / purchase', 'Design', 'Bidding', 'Under construction']} />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="step" aria-hidden="true">3</span>Services needed</legend>
+          <Chips id="p-services" name="services" label="Select all that apply" options={serviceOptions} required />
+        </fieldset>
+
+        <fieldset>
+          <legend><span class="step" aria-hidden="true">4</span>Schedule and documents</legend>
+          <div class="row">
+            <Field id="p-start" name="desired_start" label="Desired start date" type="date" />
+            <Field id="p-due" name="proposal_due" label="Proposal needed by / bid date" type="date" />
+          </div>
+          <FileDrop id="p-files" name="attachments" label="Site plan, drawings or RFP" accept=".pdf,.dwg,.dxf,.jpg,.jpeg,.png,.zip" maxMb={25} maxFiles={5} hint="Optional, but it helps us scope borings and testing accurately." />
+          <Field id="p-notes" name="notes" label="Anything else we should know?" as="textarea" hint="Building loads, structure type, known fill or drainage issues, required specifications, access constraints." />
+          <Field id="p-source" name="referral" label="How did you hear about us?" as="select" options={['Search engine', 'Referral', 'Repeat client', 'LinkedIn', 'Other']} />
+        </fieldset>
+      </FormShell>
+
+      <aside class="sticky-aside">
+        <div class="card next">
+          <h2 class="h3">What happens next</h2>
+          <ol class="next-steps">
+            <li><b>We review your request</b>We look at the site, the planned structures and the documents you sent.</li>
+            <li><b>We may call with questions</b>Usually about access, loads or the specification that applies.</li>
+            <li><b>You receive a proposal</b>With the scope, the boring or testing plan and a schedule.</li>
+          </ol>
+        </div>
+        <div class="card ink-card">
+          <h2 class="h3">Prefer to talk it through?</h2>
+          <p><a class="link-arrow" href={site.phone.href}><Icon name="phone" />{site.phone.display}</a></p>
+          <p><a class="link-arrow" href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></p>
+          <p class="small">{site.hours.days}, {site.hours.time}</p>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .h3 { font-size: var(--fs-3); line-height: 1.25; }
+  .sticky-aside { display: grid; gap: 18px; }
+  .next-steps { list-style: none; counter-reset: s; margin: 0; padding: 0; display: grid; gap: 18px; }
+  .next-steps li { counter-increment: s; position: relative; padding-left: 44px; color: var(--muted); }
+  .next-steps li::before { content: counter(s); position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; background: var(--clay-soft); color: var(--clay-dark); font-weight: 700; font-size: 0.9rem; }
+  .next-steps b { display: block; color: var(--text); }
+  .ink-card { background: var(--ink); color: var(--on-ink); border-color: var(--ink); }
+  .ink-card a { color: #f4b28f; }
+  .ink-card p { margin-bottom: 10px; }
+  .ink-card .small { color: var(--on-ink-muted); margin: 0; }
+  .ink-card :global(svg) { width: 18px; height: 18px; }
+</style>

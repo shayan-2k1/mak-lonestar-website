@@ -1,0 +1,160 @@
+---
+// Hero illustration: a truck-mounted rig drilling a boring through a typical North Texas
+// soil profile, beside a building on drilled piers. Illustrative, not a record of a real site.
+---
+<svg class="hero-scene" viewBox="0 -90 760 690" role="img" aria-labelledby="hs-title hs-desc" preserveAspectRatio="xMinYMax slice">
+  <title id="hs-title">Illustrated soil profile with a drill rig and drilled-pier foundation</title>
+  <desc id="hs-desc">A truck-mounted drill rig advances a soil boring through fill, fat clay, lean clay and weathered shale into limestone, with samples taken at intervals and groundwater observed. Beside it, a building's drilled piers extend down to bear in the weathered shale.</desc>
+  <defs>
+    <linearGradient id="hs-sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1d2c26" />
+      <stop offset="1" stop-color="#13201b" />
+    </linearGradient>
+    <linearGradient id="hs-shade" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#000" stop-opacity="0" />
+      <stop offset="1" stop-color="#000" stop-opacity=".28" />
+    </linearGradient>
+    <pattern id="hs-grid" width="38" height="38" patternUnits="userSpaceOnUse">
+      <path d="M38 0H0V38" fill="none" stroke="#eef0ea" stroke-opacity=".05" />
+    </pattern>
+    <pattern id="hs-crack" width="46" height="30" patternUnits="userSpaceOnUse">
+      <path d="M6 6l6 9-3 8M28 4l-4 10 7 9" fill="none" stroke="#5c3421" stroke-width="1.6" stroke-linecap="round" />
+    </pattern>
+    <pattern id="hs-dots" width="18" height="14" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="1.3" fill="#8a6240" /><circle cx="13" cy="10" r="1" fill="#8a6240" />
+    </pattern>
+    <pattern id="hs-lam" width="60" height="9" patternUnits="userSpaceOnUse" patternTransform="rotate(-3)">
+      <path d="M0 4.5h60" stroke="#575a55" stroke-width="1.2" />
+    </pattern>
+    <pattern id="hs-joint" width="70" height="34" patternUnits="userSpaceOnUse">
+      <path d="M0 33.5h70M22 0v34M57 0v17" stroke="#ada38c" stroke-width="1.4" fill="none" />
+    </pattern>
+    <pattern id="hs-flight" width="14" height="12" patternUnits="userSpaceOnUse">
+      <path d="M0 2l14 6" stroke="#9aa39d" stroke-width="2" />
+    </pattern>
+  </defs>
+
+  <rect y="-90" width="760" height="300" fill="url(#hs-sky)" />
+  <rect y="-90" width="760" height="300" fill="url(#hs-grid)" />
+  <!-- distant skyline -->
+  <g fill="#eef0ea" opacity=".07">
+    <rect x="18" y="150" width="26" height="56" /><rect x="48" y="118" width="20" height="88" /><rect x="72" y="136" width="30" height="70" />
+    <path d="M106 206 V96 l12 -18 12 18 V206z" /><rect x="136" y="128" width="22" height="78" />
+    <rect x="404" y="140" width="24" height="66" /><rect x="432" y="112" width="18" height="94" /><circle cx="441" cy="104" r="11" /><rect x="438" y="84" width="6" height="12" />
+  </g>
+
+  <!-- strata -->
+  <path d="M0 206 Q120 200 250 207 T520 204 T760 207 V600 H0Z" fill="#4b3d31" />
+  <path d="M0 248 Q140 240 300 250 T600 244 T760 250 V600 H0Z" fill="#7c4a32" />
+  <path d="M0 248 Q140 240 300 250 T600 244 T760 250 V352 Q600 360 420 348 T0 354Z" fill="url(#hs-crack)" opacity=".9" />
+  <path d="M0 354 Q200 344 420 348 T760 352 V600 H0Z" fill="#a97c55" />
+  <path d="M0 354 Q200 344 420 348 T760 352 V424 Q560 432 360 420 T0 426Z" fill="url(#hs-dots)" />
+  <path d="M0 426 Q180 416 360 420 T760 424 V600 H0Z" fill="#6c6f6a" />
+  <path d="M0 426 Q180 416 360 420 T760 424 V508 Q520 516 300 504 T0 510Z" fill="url(#hs-lam)" />
+  <path d="M0 510 Q260 498 520 512 T760 508 V600 H0Z" fill="#cbc2ae" />
+  <path d="M0 510 Q260 498 520 512 T760 508 V600 H0Z" fill="url(#hs-joint)" />
+  <rect y="206" width="760" height="394" fill="url(#hs-shade)" />
+  <path d="M0 206 Q120 200 250 207 T520 204 T760 207" fill="none" stroke="#8d7a63" stroke-width="2" />
+
+  <!-- groundwater -->
+  <g class="hs-water">
+    <path d="M70 393 H250 M306 393 H460" stroke="#8cc3d6" stroke-width="2" stroke-dasharray="8 6" />
+    <path d="M92 380 l9 10 9-10z" fill="#8cc3d6" />
+  </g>
+
+  <!-- borehole -->
+  <g class="hs-bore">
+    <rect x="271" y="206" width="16" height="292" fill="#1a1512" />
+    <rect x="271" y="206" width="16" height="292" fill="url(#hs-flight)" opacity=".55" />
+    <rect x="271" y="206" width="2" height="292" fill="#000" opacity=".5" />
+  </g>
+  <g class="hs-samples">
+    <g class="s s1"><rect x="291" y="262" width="22" height="12" rx="2" fill="#e8e1d1" /><rect x="291" y="262" width="22" height="3" fill="#fff" opacity=".7" /></g>
+    <g class="s s2"><rect x="291" y="308" width="22" height="12" rx="2" fill="#e8e1d1" /><rect x="291" y="308" width="22" height="3" fill="#fff" opacity=".7" /></g>
+    <g class="s s3"><rect x="291" y="366" width="22" height="12" rx="2" fill="#e8e1d1" /><rect x="291" y="366" width="22" height="3" fill="#fff" opacity=".7" /></g>
+    <g class="s s4"><rect x="291" y="436" width="22" height="12" rx="2" fill="#e8e1d1" /><rect x="291" y="436" width="22" height="3" fill="#fff" opacity=".7" /></g>
+    <g class="s s5"><rect x="291" y="478" width="22" height="12" rx="2" fill="#e8e1d1" /><rect x="291" y="478" width="22" height="3" fill="#fff" opacity=".7" /></g>
+  </g>
+
+  <!-- drill rig (truck-mounted) -->
+  <g class="hs-rig">
+    <rect x="262" y="38" width="32" height="10" rx="2" fill="#2a3b34" />
+    <path d="M268 48 h20 v128 h-20z" fill="#d0662f" />
+    <path d="M268 48 h4 v128 h-4z" fill="#f08d55" opacity=".8" />
+    <path d="M268 62 l20 18 M288 62 l-20 18 M268 98 l20 18 M288 98 l-20 18 M268 134 l20 18 M288 134 l-20 18" stroke="#8c3714" stroke-width="2" />
+    <rect x="276" y="44" width="4" height="164" fill="#c9cfcb" />
+    <rect x="270" y="150" width="16" height="14" rx="2" fill="#3b4c45" />
+    <rect x="138" y="168" width="196" height="22" rx="4" fill="#2a3b34" />
+    <rect x="138" y="168" width="196" height="3" rx="1.5" fill="#5f736a" />
+    <rect x="150" y="146" width="96" height="22" rx="3" fill="#3b4c45" />
+    <rect x="150" y="146" width="96" height="3" fill="#6e8279" />
+    <path d="M334 190 V140 a8 8 0 0 1 8-8 h28 a10 10 0 0 1 9 6 l14 30 v22z" fill="#e7e2d6" />
+    <path d="M346 144 h22 l10 22 h-32z" fill="#7fa7b5" />
+    <path d="M346 144 h22 l2 4 h-24z" fill="#cfe4ea" />
+    <rect x="334" y="182" width="59" height="8" fill="#c9c2b2" />
+    <g fill="#1a1512">
+      <circle cx="172" cy="196" r="15" /><circle cx="210" cy="196" r="15" /><circle cx="364" cy="196" r="15" />
+    </g>
+    <g fill="#8a948f"><circle cx="172" cy="196" r="5.5" /><circle cx="210" cy="196" r="5.5" /><circle cx="364" cy="196" r="5.5" /></g>
+    <rect x="255" y="190" width="10" height="16" fill="#3b4c45" /><rect x="291" y="190" width="10" height="16" fill="#3b4c45" />
+  </g>
+
+  <!-- building on drilled piers -->
+  <g class="hs-building">
+    <rect x="474" y="102" width="252" height="104" fill="#e7e2d6" />
+    <rect x="474" y="102" width="252" height="6" fill="#fff" opacity=".7" />
+    <rect x="474" y="96" width="252" height="8" fill="#c9c2b2" />
+    <g fill="#5f7f8a">
+      <rect x="492" y="122" width="38" height="26" /><rect x="544" y="122" width="38" height="26" /><rect x="618" y="122" width="38" height="26" /><rect x="670" y="122" width="38" height="26" />
+      <rect x="492" y="162" width="38" height="26" /><rect x="618" y="162" width="38" height="26" /><rect x="670" y="162" width="38" height="26" />
+    </g>
+    <rect x="550" y="160" width="40" height="46" fill="#3b4c45" />
+    <rect x="466" y="204" width="268" height="9" fill="#bdb5a3" />
+    <g fill="#d9d2c1" stroke="#f3eee2" stroke-width="1">
+      <rect x="490" y="213" width="14" height="250" /><rect x="562" y="213" width="14" height="246" /><rect x="634" y="213" width="14" height="248" /><rect x="700" y="213" width="14" height="252" />
+    </g>
+    <g class="hs-swell" stroke="#f0a47c" stroke-width="2" fill="none" stroke-linecap="round">
+      <path d="M528 300 v-26 m-6 6 6-6 6 6" /><path d="M528 312 v26 m-6-6 6 6 6-6" />
+      <path d="M672 296 v-26 m-6 6 6-6 6 6" /><path d="M672 308 v26 m-6-6 6 6 6-6" />
+    </g>
+  </g>
+
+  <!-- depth scale -->
+  <g class="hs-scale">
+    <rect x="0" y="206" width="58" height="394" fill="#13201b" opacity=".55" />
+    <path d="M44 206 V590" stroke="#eef0ea" stroke-opacity=".7" />
+    <g stroke="#eef0ea" stroke-opacity=".7">
+      <path d="M36 206 h8 M36 282 h8 M36 358 h8 M36 434 h8 M36 510 h8 M36 586 h8" />
+      <path d="M40 244 h4 M40 320 h4 M40 396 h4 M40 472 h4 M40 548 h4" />
+    </g>
+    <g class="lbl" fill="#eef0ea" font-size="13" text-anchor="end" font-family="Public Sans, system-ui, sans-serif">
+      <text x="32" y="219">0 ft</text><text x="32" y="287">10</text><text x="32" y="363">20</text><text x="32" y="439">30</text><text x="32" y="515">40</text><text x="32" y="591">50</text>
+    </g>
+  </g>
+
+  <!-- strata labels -->
+  <g class="lbl hs-labels" font-family="Public Sans, system-ui, sans-serif" font-size="13" font-weight="600">
+    <g transform="translate(330 220)"><rect width="104" height="22" rx="11" fill="#13201b" opacity=".72" /><text x="12" y="15.5" fill="#eef0ea">Fill / topsoil</text></g>
+    <g transform="translate(330 290)"><rect width="104" height="22" rx="11" fill="#13201b" opacity=".72" /><text x="12" y="15.5" fill="#eef0ea">Fat clay (CH)</text></g>
+    <g transform="translate(330 362)"><rect width="110" height="22" rx="11" fill="#13201b" opacity=".72" /><text x="12" y="15.5" fill="#eef0ea">Lean clay (CL)</text></g>
+    <g transform="translate(330 448)"><rect width="126" height="22" rx="11" fill="#13201b" opacity=".72" /><text x="12" y="15.5" fill="#eef0ea">Weathered shale</text></g>
+    <g transform="translate(330 540)"><rect width="88" height="22" rx="11" fill="#13201b" opacity=".72" /><text x="12" y="15.5" fill="#eef0ea">Limestone</text></g>
+    <g transform="translate(110 372)"><text fill="#bfe0ea" font-size="12">Groundwater</text></g>
+  </g>
+</svg>
+
+<style>
+  .hero-scene { width: 100%; height: 100%; }
+  @media (max-width: 600px) { .hero-scene .lbl { display: none; } }
+  @media (prefers-reduced-motion: no-preference) {
+    .hs-bore { transform-box: fill-box; transform-origin: top; animation: hs-drill 2.6s cubic-bezier(.45,.05,.3,1) .35s both; }
+    .hs-samples .s { animation: hs-pop .4s ease-out both; }
+    .s1 { animation-delay: .9s !important; } .s2 { animation-delay: 1.3s !important; } .s3 { animation-delay: 1.7s !important; }
+    .s4 { animation-delay: 2.2s !important; } .s5 { animation-delay: 2.7s !important; }
+    .hs-water { animation: hs-fade .8s ease-out 2.1s both; }
+    .hs-swell { animation: hs-fade .8s ease-out 3s both; }
+  }
+  @keyframes hs-drill { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @keyframes hs-pop { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+  @keyframes hs-fade { from { opacity: 0; } to { opacity: 1; } }
+</style>

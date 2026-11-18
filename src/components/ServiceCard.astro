@@ -1,0 +1,25 @@
+---
+import ServiceArt from './art/ServiceArt.astro';
+import Icon from './Icon.astro';
+import type { Service } from '../data/services';
+interface Props { service: Service; headingLevel?: 'h2' | 'h3' }
+const { service: s, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+---
+<article class="svc-card">
+  <div class="svc-art"><ServiceArt kind={s.art} /></div>
+  <div class="svc-body">
+    <H>{s.name}</H>
+    <p>{s.short}</p>
+    <a class="link-arrow" href={s.href}>Explore {s.name.toLowerCase()}<Icon name="arrow" /></a>
+  </div>
+</article>
+<style>
+  .svc-card { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; transition: box-shadow .2s, transform .2s; }
+  .svc-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); }
+  .svc-art { aspect-ratio: 4 / 3; }
+  .svc-body { padding: 24px 24px 26px; display: flex; flex-direction: column; gap: 4px; flex: 1; }
+  .svc-body :global(h2), .svc-body :global(h3) { font-size: 1.25rem; margin-bottom: 6px; }
+  .svc-body p { color: var(--muted); flex: 1; }
+  .svc-body .link-arrow::first-letter { text-transform: uppercase; }
+</style>

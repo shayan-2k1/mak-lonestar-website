@@ -1,0 +1,112 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { site } from '../data/site';
+
+export interface Crumb { name: string; href: string }
+interface Props {
+  title: string;              // full <title>, ≤ 60 chars where possible
+  description: string;        // meta description, ≤ 160 chars
+  crumbs?: Crumb[];           // breadcrumb trail (excluding Home) for BreadcrumbList schema
+  schema?: Record<string, unknown>[]; // extra JSON-LD nodes for this page
+  ogImage?: string;
+  cta?: boolean;              // show the closing proposal CTA band
+  noindex?: boolean;
+}
+
+const { title, description, crumbs = [], schema = [], ogImage = '/og-default.png', cta = true, noindex = false } = Astro.props;
+const siteUrl = Astro.site ?? new URL('https://maklonestar.com');
+const canonical = new URL(Astro.url.pathname, siteUrl).href;
+const ogImageUrl = new URL(ogImage, siteUrl).href;
+const allowIndexing = import.meta.env.PUBLIC_ALLOW_INDEXING === 'true' && !noindex;
+const orgId = new URL('/#organization', siteUrl).href;
+
+const graph: Record<string, unknown>[] = [
+  {
+    '@type': ['Organization', 'ProfessionalService'],
+    '@id': orgId,
+    name: site.legalName,
+    alternateName: site.name,
+    url: siteUrl.href,
+    logo: new URL('/favicon.svg', siteUrl).href,
+    image: ogImageUrl,
+    description: 'Texas-registered engineering firm (TBPE Firm F-24443) providing geotechnical engineering, construction materials testing, geotechnical and environmental drilling, and environmental engineering across Dallas–Fort Worth and North Texas.',
+    foundingDate: site.founded,
+    telephone: site.phone.e164,
+    email: site.email,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: site.address.street,
+      addressLocality: site.address.city,
+      addressRegion: site.address.region,
+      postalCode: site.address.postalCode,
+      addressCountry: site.address.country,
+    },
+    openingHoursSpecification: [{
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+      opens: '08:00', closes: '17:00',
+    }],
+    areaServed: [{ '@type': 'Place', name: 'Dallas–Fort Worth Metroplex' }, { '@type': 'State', name: 'Texas' }],
+    knowsAbout: ['Geotechnical engineering', 'Construction materials testing', 'Special inspection', 'Geotechnical drilling', 'Environmental engineering', 'Expansive soils'],
+    ...(site.sameAs.length ? { sameAs: site.sameAs } : {}),
+  },
+  { '@type': 'WebSite', '@id': new URL('/#website', siteUrl).href, url: siteUrl.href, name: site.legalName, publisher: { '@id': orgId } },
+];
+if (crumbs.length) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    itemListElement: [{ name: 'Home', href: '/' }, ...crumbs].map((c, i) => ({
+      '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.href, siteUrl).href,
+    })),
+  });
+}
+graph.push(...schema);
+const jsonLd = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph }).replace(/</g, '\\u003c');
+---
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="robots" content={allowIndexing ? 'index, follow, max-image-preview:large' : 'noindex, nofollow'} />
+    <meta name="theme-color" content="#13201b" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="preload" href="/fonts/archivo-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/public-sans-latin-var.woff2" as="font" type="font/woff2" crossorigin />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.legalName} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.legalName} — geotechnical engineering and materials testing in Dallas–Fort Worth`} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <script type="application/ld+json" set:html={jsonLd} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to main content</a>
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    {cta && <CtaBand />}
+    <Footer />
+  </body>
+</html>

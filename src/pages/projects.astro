@@ -1,0 +1,113 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
+import { projects, sectors, regions } from '../data/projects';
+const crumbs = [{ name: 'Projects', href: '/projects/' }];
+const schema = [{
+  '@type': 'CollectionPage',
+  name: 'MAK Lonestar projects',
+  url: new URL('/projects/', Astro.site!).href,
+  mainEntity: { '@type': 'ItemList', itemListElement: projects.map((p, i) => ({ '@type': 'ListItem', position: i + 1, name: `${p.name}, ${p.city}` })) },
+}];
+---
+<Base
+  title="Projects | Geotechnical Work in Texas | MAK Lonestar"
+  description="Warehouse, hotel, school, retail and fuel station projects supported by MAK Lonestar in Rockwall, Arlington, Irving, Mount Pleasant and Harker Heights, Texas."
+  crumbs={crumbs}
+  schema={schema}
+>
+  <PageHero
+    title="Projects"
+    lead="Commercial, industrial, hospitality and education projects, each grounded in its own site’s soil conditions. Filter by sector or region."
+    kicker="Our work"
+    crumbs={crumbs}
+  />
+
+  <section class="band" aria-labelledby="list-title">
+    <div class="wrap">
+      <h2 id="list-title" class="visually-hidden">Project list</h2>
+      <div class="filters" data-filters role="group" aria-label="Filter projects">
+        <div class="fgroup">
+          <span class="flabel" id="f-sector">Sector</span>
+          <div class="fbtns" role="group" aria-labelledby="f-sector">
+            <button type="button" data-filter="sector" data-value="all" aria-pressed="true">All</button>
+            {sectors.map((s) => <button type="button" data-filter="sector" data-value={s} aria-pressed="false">{s}</button>)}
+          </div>
+        </div>
+        <div class="fgroup">
+          <span class="flabel" id="f-region">Region</span>
+          <div class="fbtns" role="group" aria-labelledby="f-region">
+            <button type="button" data-filter="region" data-value="all" aria-pressed="true">All</button>
+            {regions.map((r) => <button type="button" data-filter="region" data-value={r} aria-pressed="false">{r}</button>)}
+          </div>
+        </div>
+        <p class="count" aria-live="polite" data-count>Showing {projects.length} of {projects.length} projects</p>
+      </div>
+
+      <div class="grid grid-3" data-projects>
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p class="empty" data-empty hidden>No projects match those filters. <button type="button" class="linkish" data-clear>Clear filters</button></p>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="cs-title">
+    <div class="wrap two-col">
+      <div>
+        <p class="kicker">Have a similar project?</p>
+        <h2 id="cs-title">Tell us about your site</h2>
+        <p>Warehouses on expansive clay, hotels with heavy column loads, school additions next to existing buildings, fuel sites with underground tanks: each one raises different geotechnical and testing questions. Send us the address and the plans, and we will scope the investigation around them.</p>
+        <a class="btn" href="/request-a-proposal/">Request a proposal <Icon name="arrow" /></a>
+      </div>
+      <ul class="checklist">
+        <li><b>Industrial and warehouse</b>Large slab-on-grade footprints and heavy truck pavements.</li>
+        <li><b>Hospitality</b>Multi-story structures and the foundations they require.</li>
+        <li><b>Education</b>Additions and extensions on active campuses.</li>
+        <li><b>Retail and fuel</b>Pavements, canopies and below-grade tank excavations.</li>
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .filters { display: flex; flex-wrap: wrap; gap: 18px 36px; align-items: flex-end; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+  .fgroup { display: grid; gap: 10px; }
+  .flabel { font-weight: 600; font-size: 0.9rem; color: var(--muted); }
+  .fbtns { display: flex; flex-wrap: wrap; gap: 8px; }
+  .fbtns button { min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 1.5px solid #bdb7aa; background: #fff; font: 500 0.95rem/1 var(--font-body); color: var(--text); cursor: pointer; }
+  .fbtns button:hover { border-color: var(--ink); }
+  .fbtns button[aria-pressed='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .count { margin: 0 0 0 auto; color: var(--muted); font-size: 0.95rem; }
+  @media (max-width: 760px) { .count { margin-left: 0; } }
+  .empty { margin-top: 24px; }
+  .linkish { background: none; border: 0; padding: 0; color: var(--clay-dark); text-decoration: underline; font: inherit; cursor: pointer; min-height: 44px; }
+</style>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-filters]');
+  if (root) {
+    const state: Record<string, string> = { sector: 'all', region: 'all' };
+    const cards = [...document.querySelectorAll<HTMLElement>('[data-projects] > *')];
+    const count = document.querySelector('[data-count]');
+    const empty = document.querySelector<HTMLElement>('[data-empty]');
+    const apply = () => {
+      let n = 0;
+      cards.forEach((c) => {
+        const show = (state.sector === 'all' || c.dataset.sector === state.sector) && (state.region === 'all' || c.dataset.region === state.region);
+        c.hidden = !show; if (show) n++;
+      });
+      if (count) count.textContent = `Showing ${n} of ${cards.length} projects`;
+      if (empty) empty.hidden = n > 0;
+      root.querySelectorAll<HTMLButtonElement>('[data-filter]').forEach((b) => b.setAttribute('aria-pressed', String(state[b.dataset.filter!] === b.dataset.value)));
+    };
+    root.addEventListener('click', (e) => {
+      const b = (e.target as Element).closest<HTMLButtonElement>('[data-filter]');
+      if (!b) return;
+      state[b.dataset.filter!] = b.dataset.value!;
+      apply();
+    });
+    document.querySelector('[data-clear]')?.addEventListener('click', () => { state.sector = 'all'; state.region = 'all'; apply(); });
+  }
+</script>

@@ -1,0 +1,282 @@
+---
+import Base from '../layouts/Base.astro';
+import HeroScene from '../components/art/HeroScene.astro';
+import ServiceArt from '../components/art/ServiceArt.astro';
+import Icon from '../components/Icon.astro';
+import Strata from '../components/Strata.astro';
+import Testimonials from '../components/Testimonials.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { services } from '../data/services';
+import { projects } from '../data/projects';
+import { site } from '../data/site';
+
+const process = [
+  { title: 'Service request', text: 'You send the location, scope, schedule and site details. We review the request and coordinate field services.' },
+  { title: 'Engineer assignment', text: 'A qualified engineer or technician is assigned based on the project’s needs, location, schedule and certifications.' },
+  { title: 'On-site investigation', text: 'Field exploration, drilling and observations are performed to the specifications, with conditions and sample locations documented.' },
+  { title: 'Laboratory testing', text: 'Soil and rock samples are tested for the properties the subsurface conditions and project require.' },
+  { title: 'Engineering review', text: 'Engineers check field and laboratory data for accuracy and completeness before forming recommendations.' },
+  { title: 'Report distribution', text: 'The final report is issued electronically to you and your authorized representatives.' },
+];
+const audiences = [
+  { title: 'Developers and property owners', text: 'Geotechnical information from site evaluation through construction: identify subsurface risk early, compare foundation options and keep development cost-effective.', href: '/industries/#developers' },
+  { title: 'General contractors', text: 'Responsive materials testing and special inspection that protect quality and schedule, with clear reports for engineers, owners and building departments.', href: '/industries/#contractors' },
+  { title: 'Municipal and government agencies', text: 'Support for roadway, pavement, utility and municipal facility projects in North Texas, with documentation that meets agency requirements.', href: '/industries/#public' },
+];
+const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
+---
+<Base
+  title="Geotechnical Engineering & Testing in DFW | MAK Lonestar"
+  description="Irving-based geotechnical engineering, materials testing and drilling firm serving Dallas–Fort Worth. TBPE Firm F-24443, MBE certified. Request a proposal."
+>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <p class="kicker">Building strong foundations</p>
+        <h1 id="hero-title">Geotechnical engineering &amp; construction materials testing in Dallas–Fort Worth</h1>
+        <p class="lead">A Texas-registered engineering firm in Irving. We drill, test and engineer with our own crew, and every project is completed under the responsible charge of a licensed Texas P.E.</p>
+        <div class="btn-row">
+          <a class="btn" href="/request-a-proposal/">Request a proposal <Icon name="arrow" /></a>
+          <a class="btn btn--ghost" href={site.phone.href}><Icon name="phone" />Call {site.phone.display}</a>
+        </div>
+      </div>
+      <div class="hero-art"><HeroScene /></div>
+    </div>
+  </section>
+
+  <section class="creds-band" aria-label="Credentials">
+    <div class="wrap">
+      <div class="creds">
+        <div><b>TBPE Firm F-24443</b><span>Texas Registered Engineering Firm since 2022</span></div>
+        <div><b>Licensed P.E. in charge</b><span>{site.principal.name}, {site.principal.experience} in geotechnical engineering</span></div>
+        <div><b>MBE certified</b><span>Minority Business Enterprise for supplier-diversity goals</span></div>
+        <div><b>Our own drill rig</b><span>{site.equipment}</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="svc-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Services</p>
+          <h2 id="svc-title">From the first boring to the final inspection</h2>
+        </div>
+        <p class="lead">Four connected services, one accountable team. The engineer who scopes your borings is the one who signs the recommendations.</p>
+      </div>
+
+      <div class="svc-tabs" data-tabs>
+        <div class="tablist" role="tablist" aria-label="Services">
+          {services.map((s, i) => (
+            <button role="tab" type="button" id={`tab-${s.slug}`} aria-controls={`panel-${s.slug}`} aria-selected={i === 0 ? 'true' : 'false'} tabindex={i === 0 ? 0 : -1}>
+              <span class="tnum">0{i + 1}</span>{s.name}
+            </button>
+          ))}
+        </div>
+        {services.map((s, i) => (
+          <div class="tabpanel" role="tabpanel" id={`panel-${s.slug}`} aria-labelledby={`tab-${s.slug}`} hidden={i !== 0}>
+            <div class="tp-art"><ServiceArt kind={s.art} /></div>
+            <div class="tp-body">
+              <h3>{s.name}</h3>
+              <p>{s.short}</p>
+              <ul class="checklist">
+                {s.scopes.slice(0, 4).map((sc) => <li>{sc.title}</li>)}
+              </ul>
+              <div class="btn-row">
+                <a class="btn btn--ghost" href={s.href}>{s.name} details <Icon name="arrow" /></a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="why-title">
+    <div class="wrap two-col wide-left">
+      <div>
+        <p class="kicker">Why MAK Lonestar</p>
+        <h2 id="why-title">A geotechnical firm that picks up the phone</h2>
+        <p class="lead">On many projects, work passes from a drill crew to a lab to an engineer you never speak with. Here, a project stays with the same team from the first phone call to the final report.</p>
+        <ul class="checklist why-list">
+          <li><b>Principal engineer access</b>Your questions go to the licensed engineer responsible for the work.</li>
+          <li><b>Field, lab and engineering in one place</b>Our own rig and crew mean no waiting on a drilling subcontractor, and samples stay traceable from boring to lab.</li>
+          <li><b>Site-specific conclusions</b>We do not carry assumptions over from the site next door. If a site needs more investigation, we say so.</li>
+          <li><b>With you through construction</b>The same firm that wrote the recommendations verifies them in the field.</li>
+        </ul>
+      </div>
+      <aside class="card principal" aria-labelledby="principal-name">
+        <p class="kicker">Responsible engineer</p>
+        <h3 id="principal-name">{site.principal.name}</h3>
+        <p class="muted">{site.principal.title}</p>
+        <dl class="facts">
+          <div><dt>Experience</dt><dd>{site.principal.experience} in geotechnical engineering</dd></div>
+          <div><dt>Education</dt><dd>{site.principal.education}</dd></div>
+          <div><dt>Licensure</dt><dd>Texas Professional Engineer; every project completed under his licensure</dd></div>
+          <div><dt>Firm</dt><dd>TBPE Registered Engineering Firm F-24443</dd></div>
+        </dl>
+        <a class="link-arrow" href="/about/">About the firm <Icon name="arrow" /></a>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="aud-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Who we work with</p>
+          <h2 id="aud-title">Built around the people who build</h2>
+        </div>
+        <p class="lead">Developers, contractors and public agencies need different things from the same soil data. We deliver each of them the version they can use.</p>
+      </div>
+      <div class="grid grid-3">
+        {audiences.map((a) => (
+          <article class="card aud">
+            <h3>{a.title}</h3>
+            <p class="muted">{a.text}</p>
+            <a class="link-arrow" href={a.href}>How we help <Icon name="arrow" /></a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--ink" aria-labelledby="proc-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">How a project runs</p>
+          <h2 id="proc-title">Six steps, layer by layer</h2>
+        </div>
+        <p class="lead">A predictable path from your request to a report your whole team can rely on.</p>
+      </div>
+      <Strata steps={process} label="Project process" />
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="proj-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Projects</p>
+          <h2 id="proj-title">Recent work across Texas</h2>
+        </div>
+        <p class="lead">Warehouses, hotels, schools, retail and fuel sites: commercial, industrial and hospitality projects, grounded in each site’s soil conditions.</p>
+      </div>
+      <div class="grid grid-3">
+        {featured.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p class="see-all"><a class="btn btn--ghost" href="/projects/">See all projects <Icon name="arrow" /></a></p>
+    </div>
+  </section>
+
+  <section class="band band--ink" aria-labelledby="t-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Client feedback</p>
+          <h2 id="t-title">What engineers and contractors say</h2>
+        </div>
+      </div>
+      <Testimonials />
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="soil-title">
+    <div class="wrap two-col">
+      <div>
+        <p class="kicker">North Texas ground conditions</p>
+        <h2 id="soil-title">Why DFW sites need site-specific geotechnical data</h2>
+        <p>Large parts of the Metroplex are underlain by high-plasticity clays over weathered shale and limestone. These clays swell when wet and shrink when dry, and the movement can reach several inches at the surface. Undocumented fill, variable groundwater and a shallow, uneven rock surface add to the risk.</p>
+        <p>A geotechnical investigation measures those conditions on your site. It sets the foundation type, the bearing depth and the subgrade treatment that keep slabs and pavements where they belong.</p>
+        <a class="link-arrow" href="/service-area/">Our Dallas–Fort Worth service area <Icon name="arrow" /></a>
+      </div>
+      <div class="card soil-card">
+        <h3>What we commonly evaluate on Metroplex sites</h3>
+        <ul class="checklist">
+          <li><b>Shrink–swell potential</b>Potential vertical rise (PVR) estimates from laboratory swell and plasticity testing.</li>
+          <li><b>Bearing stratum</b>Depth and consistency of weathered shale or limestone for drilled piers.</li>
+          <li><b>Existing fill</b>Whether old fill can stay, needs reworking or must be removed.</li>
+          <li><b>Groundwater</b>Levels observed during and after drilling, for excavation and dewatering planning.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { background: var(--ink); color: var(--on-ink); overflow: hidden; }
+  .hero-inner { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: stretch; max-width: calc(var(--max) + 2 * var(--gutter)); margin-inline: auto; min-height: min(78vh, 680px); }
+  .hero-copy { padding: clamp(48px, 7vw, 104px) clamp(20px, 3vw, 48px) clamp(48px, 7vw, 96px) var(--gutter); display: flex; flex-direction: column; justify-content: center; }
+  .hero-copy h1 { font-size: clamp(2.1rem, 1.2rem + 3vw, 3.2rem); margin-bottom: 22px; }
+  .hero-copy .lead { color: var(--on-ink-muted); margin-bottom: 32px; }
+  .hero .kicker { color: #f0a47c; }
+  .hero .btn--ghost { color: var(--on-ink); border-color: rgb(238 240 234 / 55%); }
+  .hero .btn--ghost:hover { background: var(--on-ink); color: var(--ink); }
+  .hero-art { position: relative; min-height: 420px; margin-right: calc(-1 * max(0px, (100vw - var(--max) - 2 * var(--gutter)) / 2)); }
+  .hero-art :global(svg) { position: absolute; inset: 0; }
+  @media (max-width: 1100px) {
+    .hero-inner { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    .hero-copy { padding-right: var(--gutter); padding-bottom: 32px; }
+    .hero-art { min-height: 0; aspect-ratio: 760 / 690; margin-right: 0; }
+  }
+
+  .svc-tabs { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr); gap: clamp(20px, 3vw, 40px); align-items: start; }
+  .tablist { display: grid; gap: 8px; }
+  .tablist button { display: flex; align-items: center; gap: 14px; text-align: left; width: 100%; min-height: 64px; padding: 14px 18px; border: 1px solid var(--line); border-radius: 12px; background: #fff; font: 600 1.05rem/1.25 var(--font-head); font-stretch: 104%; color: var(--text); cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
+  .tablist button:hover { border-color: var(--ink); }
+  .tablist button[aria-selected='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
+  .tnum { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .tablist button[aria-selected='true'] .tnum { color: #cfd6d1; }
+  .tabpanel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: #fff; }
+  .tabpanel[hidden] { display: none; }
+  .tp-art { min-height: 300px; }
+  .tp-body { padding: clamp(22px, 3vw, 36px); }
+  .tp-body p { color: var(--muted); }
+  .tp-body .checklist { margin: 18px 0 26px; }
+  .tp-body .btn { white-space: normal; text-align: left; }
+  @media (max-width: 1100px) { .svc-tabs { grid-template-columns: minmax(0, 1fr); } .tablist { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 700px) { .tabpanel { grid-template-columns: minmax(0, 1fr); } .tp-art { min-height: 0; aspect-ratio: 4/3; } }
+  @media (max-width: 480px) { .tablist { grid-template-columns: minmax(0, 1fr); } .tablist button { min-height: 52px; } }
+
+  .creds-band { padding-top: clamp(24px, 3vw, 40px); }
+  .why-list { margin-top: 28px; gap: 18px; }
+  .principal h3 { font-size: 1.5rem; margin-bottom: 2px; }
+  .facts { margin: 22px 0 24px; display: grid; gap: 14px; }
+  .facts div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .facts dt { font-weight: 600; font-size: 0.9rem; color: var(--muted); }
+  .facts dd { margin: 0; }
+  @media (max-width: 420px) { .facts div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+  .aud { display: flex; flex-direction: column; }
+  .aud p { flex: 1; }
+  .see-all { margin: 32px 0 0; }
+  .soil-card h3 { margin-bottom: 18px; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((root) => {
+    const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const select = (tab: HTMLButtonElement, focus = true) => {
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        const panel = document.getElementById(t.getAttribute('aria-controls') || '');
+        if (panel) panel.hidden = !on;
+      });
+      if (focus) tab.focus();
+    };
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', () => select(t, false));
+      t.addEventListener('keydown', (e) => {
+        const k = e.key;
+        let n = -1;
+        if (k === 'ArrowDown' || k === 'ArrowRight') n = (i + 1) % tabs.length;
+        if (k === 'ArrowUp' || k === 'ArrowLeft') n = (i - 1 + tabs.length) % tabs.length;
+        if (k === 'Home') n = 0;
+        if (k === 'End') n = tabs.length - 1;
+        if (n >= 0) { e.preventDefault(); select(tabs[n]); }
+      });
+    });
+  });
+</script>

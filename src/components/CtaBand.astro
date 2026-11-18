@@ -1,0 +1,21 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+interface Props { title?: string; text?: string }
+const {
+  title = 'Have plans or a site address? Send them over.',
+  text = 'Share your site plan, drawings or RFP. We review the scope and follow up with a proposal that fits the site.',
+} = Astro.props;
+---
+<section class="cta-band band--tight" aria-labelledby="cta-title">
+  <div class="wrap">
+    <div>
+      <h2 id="cta-title">{title}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="btn-row">
+      <a class="btn" href="/request-a-proposal/">Request a proposal <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href={site.phone.href}><Icon name="phone" />{site.phone.display}</a>
+    </div>
+  </div>
+</section>

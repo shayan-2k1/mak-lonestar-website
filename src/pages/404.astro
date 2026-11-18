@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { nav } from '../data/site';
+---
+<Base title="Page not found | MAK Lonestar Consulting" description="The page you were looking for could not be found." noindex cta={false}>
+  <section class="band nf">
+    <div class="wrap">
+      <p class="kicker">Error 404</p>
+      <h1>We drilled down, but this page isn’t here</h1>
+      <p class="lead">The page may have moved when we rebuilt our website. Try one of these instead:</p>
+      <ul class="nf-links">
+        {nav[0].children!.map((c) => <li><a class="link-arrow" href={c.href}>{c.label}<Icon name="arrow" /></a></li>)}
+        <li><a class="link-arrow" href="/projects/">Projects<Icon name="arrow" /></a></li>
+        <li><a class="link-arrow" href="/contact/">Contact<Icon name="arrow" /></a></li>
+      </ul>
+      <a class="btn" href="/">Back to the homepage</a>
+    </div>
+  </section>
+</Base>
+<style>
+  .nf { min-height: 60vh; }
+  .nf-links { list-style: none; padding: 0; margin: 24px 0 32px; display: grid; gap: 10px; }
+</style>

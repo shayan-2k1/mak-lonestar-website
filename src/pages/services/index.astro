@@ -1,0 +1,89 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Icon from '../../components/Icon.astro';
+import { services } from '../../data/services';
+import { site } from '../../data/site';
+const crumbs = [{ name: 'Services', href: '/services/' }];
+const siteUrl = Astro.site!;
+const schema = [{
+  '@type': 'ItemList',
+  name: 'MAK Lonestar services',
+  itemListElement: services.map((s, i) => ({ '@type': 'ListItem', position: i + 1, name: s.name, url: new URL(s.href, siteUrl).href })),
+}];
+const stages = [
+  { stage: 'Before you buy or design', items: ['Environmental site evaluation', 'Geotechnical investigation and borings', 'Foundation and pavement recommendations'] },
+  { stage: 'During construction', items: ['Compaction and subgrade testing', 'Drilled pier observation', 'Concrete, masonry, steel and asphalt testing', 'IBC special inspection'] },
+  { stage: 'At closeout', items: ['Complete testing record', 'Documentation for owners, engineers and building officials'] },
+];
+---
+<Base
+  title="Engineering & Testing Services in DFW | MAK Lonestar"
+  description="Geotechnical engineering, construction materials testing, special inspection, geotechnical and environmental drilling, and environmental engineering across DFW."
+  crumbs={crumbs}
+  schema={schema}
+>
+  <PageHero
+    title="Engineering services from the ground up"
+    lead="From the first soil boring to the last concrete break, MAK Lonestar keeps field work, laboratory testing and engineering under one licensed firm, so your project data stays consistent from design through closeout."
+    kicker="Services"
+    crumbs={crumbs}
+  >
+    <div slot="actions" class="btn-row">
+      <a class="btn" href="/request-a-proposal/">Request a proposal <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href={site.phone.href}><Icon name="phone" />{site.phone.display}</a>
+    </div>
+  </PageHero>
+
+  <section class="band" aria-labelledby="all-title">
+    <div class="wrap">
+      <h2 id="all-title" class="visually-hidden">All services</h2>
+      <div class="grid grid-2">
+        {services.map((s) => <ServiceCard service={s} headingLevel="h3" />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="stage-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Project lifecycle</p><h2 id="stage-title">Where each service fits</h2></div>
+        <p class="lead">Most projects use more than one of our services. Keeping them with one firm means the engineer who wrote the recommendations is the one checking that they are built.</p>
+      </div>
+      <ol class="stages">
+        {stages.map((st, i) => (
+          <li>
+            <span class="stage-n">Stage {i + 1}</span>
+            <h3>{st.stage}</h3>
+            <ul class="checklist">{st.items.map((it) => <li>{it}</li>)}</ul>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="std-title">
+    <div class="wrap two-col">
+      <div>
+        <p class="kicker">Standards</p>
+        <h2 id="std-title">Work performed to recognized procedures</h2>
+        <p>Field and laboratory work follows ASTM and AASHTO test methods, with TxDOT, International Building Code and NCTCOG requirements applied where a project calls for them. Every project is completed under the responsible charge of a licensed Texas Professional Engineer at a TBPE-registered firm (F-24443).</p>
+      </div>
+      <ul class="std-list" aria-label="Standards followed">
+        {site.standards.map((s) => <li>{s}</li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .stages { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--stone-2); }
+  .stages > li { padding: clamp(22px, 3vw, 34px); background: #fff; border-left: 1px solid var(--stone-2); }
+  .stages > li:first-child { border-left: 0; }
+  .stage-n { display: block; font-weight: 600; font-size: 0.9rem; color: var(--clay-dark); margin-bottom: 8px; }
+  .stages h3 { margin-bottom: 18px; }
+  @media (max-width: 860px) { .stages { grid-template-columns: minmax(0, 1fr); } .stages > li { border-left: 0; border-top: 1px solid var(--stone-2); } .stages > li:first-child { border-top: 0; } }
+  .std-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; align-self: center; }
+  .std-list li { display: grid; place-items: center; min-height: 84px; border: 1px solid var(--line); border-radius: var(--radius); font: 650 1.35rem/1 var(--font-head); font-stretch: 115%; color: var(--ink); background: var(--stone); }
+</style>

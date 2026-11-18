@@ -1,0 +1,80 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import AreaMap from '../components/art/AreaMap.astro';
+import Icon from '../components/Icon.astro';
+import Faq from '../components/Faq.astro';
+const crumbs = [{ name: 'Service area', href: '/service-area/' }];
+const geology = [
+  { t: 'High-plasticity clays', d: 'Much of Dallas, Collin and eastern Tarrant counties is covered by dark, fat clays that shrink and swell with moisture. They drive most slab and pavement movement problems in the region and are the reason PVR estimates appear in so many local foundation designs.' },
+  { t: 'Weathered shale', d: 'Below the clays, weathered shale is a common bearing stratum for drilled piers. Its depth and how weathered it is vary across short distances, so pier lengths are set from site borings rather than assumed.' },
+  { t: 'Limestone and chalk', d: 'Limestone underlies large parts of the Fort Worth side of the Metroplex, and chalk is common to the east and north of Dallas. Where rock is shallow, it changes excavation methods, pier design and utility installation.' },
+  { t: 'Fill and river deposits', d: 'Older developed sites often carry undocumented fill, and areas near the Trinity River and its tributaries contain alluvial sands, silts and clays with shallower groundwater. Both call for careful investigation before design.' },
+];
+const faqs = [
+  { q: 'Which cities do you work in?', a: 'We are based in Irving and work throughout the Dallas–Fort Worth Metroplex and the surrounding North Texas communities. If you are not sure whether your site is covered, send us the address and we will confirm.' },
+  { q: 'Do you take projects outside the Metroplex?', a: 'Yes. Most of our work is in DFW and North Texas, but we also support projects elsewhere in Texas. Recent examples include a hotel in Mount Pleasant and a fuel station in Harker Heights.' },
+  { q: 'Does the city I am building in change the requirements?', a: 'It can. Building departments differ in what they expect in a geotechnical report and in special inspection documentation. Tell us the jurisdiction when you request a proposal and we will scope the work to match.' },
+];
+const schema = [{ '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) }];
+---
+<Base
+  title="Geotechnical Engineer Serving Dallas–Fort Worth | MAK Lonestar"
+  description="Irving-based geotechnical engineering, materials testing and drilling across the Dallas–Fort Worth Metroplex and North Texas, with projects statewide on request."
+  crumbs={crumbs}
+  schema={schema}
+>
+  <PageHero
+    title="Serving Dallas–Fort Worth and North Texas"
+    lead="Our office and drill rig are based in Irving, at the center of the Metroplex. That puts most DFW sites within a short mobilization, whether the project is in Dallas, Tarrant, Collin, Denton or the surrounding counties."
+    kicker="Service area"
+    crumbs={crumbs}
+  >
+    <div slot="actions" class="btn-row">
+      <a class="btn" href="/request-a-proposal/">Check my project location <Icon name="arrow" /></a>
+    </div>
+  </PageHero>
+
+  <section class="band" aria-labelledby="map-title">
+    <div class="wrap two-col wide-left">
+      <figure class="map-fig">
+        <AreaMap />
+        <figcaption class="small muted">Schematic map of the core Metroplex counties, not to scale. Markers show the Irving office and published project locations.</figcaption>
+      </figure>
+      <div>
+        <h2 id="map-title">Where we work</h2>
+        <p>Irving sits between Dallas and Fort Worth, with quick access to the region’s major highways. From there our crew reaches sites across the Metroplex, and our engineers can visit when a site needs a closer look.</p>
+        <ul class="checklist">
+          <li><b>Dallas–Fort Worth Metroplex</b>Our primary service area for drilling, testing and engineering.</li>
+          <li><b>North Texas</b>Surrounding communities beyond the core counties.</li>
+          <li><b>Elsewhere in Texas</b>Projects on request, such as Mount Pleasant and Harker Heights.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="geo-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Local ground conditions</p><h2 id="geo-title">What is under the Metroplex</h2></div>
+        <p class="lead">DFW is a demanding place to build. These are the conditions we plan every investigation around.</p>
+      </div>
+      <div class="grid grid-2">
+        {geology.map((g) => <article class="card"><h3>{g.t}</h3><p class="muted">{g.d}</p></article>)}
+      </div>
+      <p class="small muted geo-note">General regional conditions only. Every site is different, which is why recommendations come from site-specific borings and testing.</p>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="faq-title">
+    <div class="wrap">
+      <h2 id="faq-title">Service area questions</h2>
+      <Faq items={faqs} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .map-fig { margin: 0; display: grid; gap: 10px; }
+  .geo-note { margin-top: 20px; }
+</style>

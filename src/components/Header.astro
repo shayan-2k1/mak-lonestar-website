@@ -1,0 +1,95 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { nav, site } from '../data/site';
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => (href === '/' ? path === '/' : path === href);
+const inSection = (href: string) => href !== '/' && path.startsWith(href);
+---
+<div class="utility">
+  <div class="wrap">
+    <span>{site.hours.days}, {site.hours.time}</span>
+    <span class="sep" aria-hidden="true">|</span>
+    <a href={`mailto:${site.email}`}>{site.email}</a>
+    <span class="sep" aria-hidden="true">|</span>
+    <a href={site.phone.href}>{site.phone.display}</a>
+  </div>
+</div>
+<header class="site-header" data-header>
+  <div class="wrap">
+    <Logo />
+    <nav class="primary-nav" id="primary-nav" aria-label="Main">
+      <ul>
+        {nav.map((item) => item.children ? (
+          <li class:list={['has-sub', { 'is-current': inSection(item.href) }]} data-sub>
+            <button class="nav-trigger" type="button" aria-expanded="false" aria-controls="submenu-services">
+              {item.label}<Icon name="chevron" />
+            </button>
+            <ul class="submenu" id="submenu-services">
+              {item.children.map((c) => (
+                <li><a href={c.href} aria-current={isCurrent(c.href) ? 'page' : undefined}>{c.label}</a></li>
+              ))}
+              <li class="all"><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>All services overview</a></li>
+            </ul>
+          </li>
+        ) : (
+          <li><a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a></li>
+        ))}
+      </ul>
+      <div class="mobile-cta">
+        <a class="btn" href="/request-a-proposal/">Request a proposal</a>
+        <a class="btn btn--ghost" href={site.phone.href}><Icon name="phone" />Call {site.phone.display}</a>
+      </div>
+    </nav>
+    <a class="btn header-cta" href="/request-a-proposal/">Request a proposal</a>
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-nav" data-menu-toggle>
+      <span class="visually-hidden" data-menu-label>Open menu</span>
+      <Icon name="menu" class="i-open" />
+      <Icon name="close" class="i-close" />
+    </button>
+  </div>
+</header>
+
+<style>
+  .menu-toggle :global(.i-close) { display: none; }
+  :global(.nav-open) .menu-toggle :global(.i-close) { display: block; }
+  :global(.nav-open) .menu-toggle :global(.i-open) { display: none; }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const label = document.querySelector('[data-menu-label]');
+  const subs = document.querySelectorAll<HTMLElement>('[data-sub]');
+
+  const setMenu = (open: boolean) => {
+    root.classList.toggle('nav-open', open);
+    document.body.classList.toggle('nav-open', open);
+    toggle?.setAttribute('aria-expanded', String(open));
+    if (label) label.textContent = open ? 'Close menu' : 'Open menu';
+  };
+  toggle?.addEventListener('click', () => setMenu(!root.classList.contains('nav-open')));
+
+  subs.forEach((li) => {
+    const btn = li.querySelector<HTMLButtonElement>('.nav-trigger');
+    btn?.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = !li.classList.contains('is-open');
+      li.classList.toggle('is-open', open);
+      btn.setAttribute('aria-expanded', String(open));
+    });
+  });
+  const closeSubs = () => subs.forEach((li) => { li.classList.remove('is-open'); li.querySelector('.nav-trigger')?.setAttribute('aria-expanded', 'false'); });
+  document.addEventListener('click', (e) => { if (!(e.target as Element).closest('[data-sub]')) closeSubs(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeSubs(); if (root.classList.contains('nav-open')) { setMenu(false); toggle?.focus(); } }
+  });
+  // Close the mobile menu after choosing a link (also needed for in-page and hash navigation).
+  document.querySelectorAll('#primary-nav a').forEach((a) => a.addEventListener('click', () => { setMenu(false); closeSubs(); }));
+  window.matchMedia('(min-width: 1101px)').addEventListener('change', (m) => { if (m.matches) setMenu(false); });
+
+  const onScroll = () => header?.classList.toggle('is-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

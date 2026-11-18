@@ -1,0 +1,33 @@
+---
+import type { Project } from '../data/projects';
+interface Props { project: Project; headingLevel?: 'h2' | 'h3' }
+const { project: p, headingLevel = 'h3' } = Astro.props;
+const H = headingLevel;
+const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${p.address}, ${p.city}`)}`;
+const tone: Record<string, string> = { 'Industrial & warehouse': '#6c6f6a', Hospitality: '#7c4a32', 'Retail & fuel': '#a97c55', Education: '#4b3d31' };
+---
+<article class="proj" data-sector={p.sector} data-region={p.region}>
+  <div class="proj-band" style={`--tone:${tone[p.sector]}`} aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <div class="proj-body">
+    <div class="proj-tags"><span class="tag">{p.sector}</span><span class="tag">{p.region}</span></div>
+    <H>{p.name}</H>
+    <p class="proj-addr">{p.address}, {p.city}<br /><span class="muted small">{p.county}</span></p>
+    <p class="muted">{p.summary}</p>
+    <a class="small" href={mapUrl} target="_blank" rel="noopener">View location on Google Maps<span class="visually-hidden"> (opens in a new tab)</span></a>
+  </div>
+</article>
+<style>
+  .proj { display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; }
+  .proj[hidden] { display: none; }
+  .proj-band { height: 74px; display: grid; grid-template-rows: 1fr 1.4fr 1fr; background: var(--tone); }
+  .proj-band span:nth-child(1) { background: #4b3d31; }
+  .proj-band span:nth-child(2) { background: var(--tone); }
+  .proj-band span:nth-child(3) { background: linear-gradient(90deg, #cbc2ae, #b9ae96); }
+  .proj-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .proj-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+  .proj-body :global(h2), .proj-body :global(h3) { font-size: 1.25rem; margin-bottom: 6px; }
+  .proj-addr { margin-bottom: 10px; font-weight: 500; }
+  .proj-body > a { margin-top: auto; }
+</style>

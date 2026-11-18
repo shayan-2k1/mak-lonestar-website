@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import { site, fullAddress } from '../data/site';
+const crumbs = [{ name: 'Privacy & terms', href: '/privacy-policy/' }];
+// DRAFT: to be reviewed by the owner (and counsel, if desired) before launch.
+---
+<Base
+  title="Privacy Policy & Terms of Use | MAK Lonestar Consulting"
+  description="How MAK Lonestar Consulting, LLC collects and uses information submitted through this website, and the terms that apply to using it."
+  crumbs={crumbs}
+  cta={false}
+>
+  <PageHero title="Privacy policy and terms of use" lead="How we handle the information you send us through this website." kicker="Legal" crumbs={crumbs} />
+  <section class="band">
+    <div class="wrap prose">
+      <p class="muted small">Last updated: November 2026</p>
+
+      <h2>Information we collect</h2>
+      <p>When you complete a form on this website, we receive the information you enter, such as your name, company, email address, phone number, project details and any files you attach. We also receive standard technical information from your browser, such as the pages visited, which may be collected through analytics tools.</p>
+
+      <h2>How we use it</h2>
+      <ul>
+        <li>To respond to your inquiry, prepare a proposal or schedule services.</li>
+        <li>To review employment applications.</li>
+        <li>To operate, secure and improve this website.</li>
+      </ul>
+      <p>We do not sell your personal information. We share it only with service providers who help us operate the website or deliver your request, or when required by law.</p>
+
+      <h2>Files you upload</h2>
+      <p>Plans, drawings and other documents you attach are used only to evaluate your project. Please do not upload information you are not authorized to share.</p>
+
+      <h2>Retention and your choices</h2>
+      <p>We keep inquiry information for as long as needed to respond and to maintain business records. To ask us to update or delete information you sent, contact us using the details below.</p>
+
+      <h2>Terms of use</h2>
+      <p>The content on this website is general information about our services. It is not engineering advice for any specific site, and it does not create a professional relationship. Engineering recommendations are provided only in signed reports prepared for a specific project and client.</p>
+      <p>All content on this website is the property of {site.legalName} unless otherwise noted.</p>
+
+      <h2>Accessibility</h2>
+      <p>We want this website to be usable by everyone. If you have difficulty using any part of it, please contact us and we will provide the information in another way.</p>
+
+      <h2>Contact</h2>
+      <p>{site.legalName}<br />{fullAddress}<br /><a href={site.phone.href}>{site.phone.display}</a> · <a href={`mailto:${site.email}`}>{site.email}</a></p>
+    </div>
+  </section>
+</Base>

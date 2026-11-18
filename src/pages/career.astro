@@ -1,0 +1,98 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FormShell from '../components/form/FormShell.astro';
+import Field from '../components/form/Field.astro';
+import FileDrop from '../components/form/FileDrop.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'Careers', href: '/career/' }];
+// Roles MAK Lonestar has advertised on public job boards (Nov 2026). Confirm which are open,
+// plus pay ranges, before adding JobPosting structured data (docs/OWNER-CONFIRMATION.md).
+const roles = [
+  {
+    title: 'Construction Materials Testing Technician',
+    type: 'Field · Irving, TX',
+    text: 'Perform field and laboratory testing of soil, concrete and other construction materials on projects across the Metroplex, and document results accurately for the project team.',
+    points: ['Field density and compaction testing', 'Concrete sampling and cylinder preparation', 'Clear, accurate field documentation'],
+  },
+  {
+    title: 'Geotechnical Drilling Helper',
+    type: 'Field · Dallas–Fort Worth',
+    text: 'Assist our drilling crew on soil exploration projects throughout DFW: setting up the rig, handling tooling and recovering split-spoon and Shelby tube samples.',
+    points: ['Rig setup and site safety', 'Sample recovery, labeling and handling', 'Work outdoors on active project sites'],
+  },
+];
+---
+<Base
+  title="Careers | CMT & Drilling Jobs in Irving, TX | MAK Lonestar"
+  description="Join MAK Lonestar's field, laboratory and engineering team in Irving, TX. We hire materials testing technicians and geotechnical drilling crew across DFW."
+  crumbs={crumbs}
+  cta={false}
+>
+  <PageHero
+    title="Build your career on solid ground"
+    lead="MAK Lonestar is a growing engineering firm in Irving. Our technicians, drillers and engineers work side by side on real projects across Dallas–Fort Worth, and learn the whole process from boring to report."
+    kicker="Careers"
+    crumbs={crumbs}
+  >
+    <div slot="actions" class="btn-row">
+      <a class="btn" href="#apply">Apply now <Icon name="arrow" /></a>
+    </div>
+  </PageHero>
+
+  <section class="band" aria-labelledby="roles-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Roles</p><h2 id="roles-title">Positions we hire for</h2></div>
+        <p class="lead">Openings change through the year. Apply below, or email <a href={`mailto:${site.email}`}>{site.email}</a> to ask what is open now.</p>
+      </div>
+      <div class="grid grid-2">
+        {roles.map((r) => (
+          <article class="card role">
+            <span class="tag">{r.type}</span>
+            <h3>{r.title}</h3>
+            <p class="muted">{r.text}</p>
+            <ul class="checklist">{r.points.map((p) => <li>{p}</li>)}</ul>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--stone" id="apply" aria-labelledby="apply-title">
+    <div class="wrap two-col wide-left">
+      <div>
+        <h2 id="apply-title">Apply</h2>
+        <p class="muted">Tell us about yourself and attach your résumé. We review every application.</p>
+        <FormShell name="careers" submitLabel="Submit application" note="We use your details only to review your application.">
+          <div class="row">
+            <Field id="j-name" name="name" label="Full name" required autocomplete="name" />
+            <Field id="j-email" name="email" label="Email" type="email" required autocomplete="email" inputmode="email" />
+          </div>
+          <div class="row">
+            <Field id="j-phone" name="phone" label="Phone" type="tel" required autocomplete="tel" inputmode="tel" />
+            <Field id="j-role" name="position" label="Position" as="select" required options={['Construction Materials Testing Technician', 'Geotechnical Drilling Helper', 'General application']} />
+          </div>
+          <Field id="j-certs" name="certifications" label="Certifications or licenses" hint="For example: ACI, TxDOT, ICC, driver’s license class. Optional." />
+          <FileDrop id="j-resume" name="resume" label="Résumé" accept=".pdf,.doc,.docx" maxMb={10} maxFiles={1} multiple={false} required />
+          <Field id="j-msg" name="message" label="Anything you would like us to know?" as="textarea" />
+        </FormShell>
+      </div>
+      <aside class="card sticky-aside">
+        <h3>Why work here</h3>
+        <ul class="checklist">
+          <li><b>Learn the whole job</b>See how field data becomes an engineering recommendation.</li>
+          <li><b>Work with a licensed P.E.</b>Every project runs under our principal engineer.</li>
+          <li><b>Real DFW projects</b>Warehouses, schools, hotels and public work across the Metroplex.</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .role { display: flex; flex-direction: column; gap: 6px; }
+  .role .tag { align-self: flex-start; margin-bottom: 10px; }
+  .role .checklist { margin-top: 8px; }
+</style>

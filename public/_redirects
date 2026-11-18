@@ -1,0 +1,10 @@
+# Netlify redirects (Vercel uses vercel.json)
+/who-we-are/*                       /about/                                   301
+/who-we-are                         /about/                                   301
+/contact-us/*                       /contact/                                 301
+/contact-us                         /contact/                                 301
+/what-we-do/*                       /services/                                301
+/what-we-do                         /services/                                301
+/services/construction-materials/*  /services/construction-materials-testing/ 301
+/services/construction-materials    /services/construction-materials-testing/ 301
+/careers                            /career/                                  301

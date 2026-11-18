@@ -1,0 +1,26 @@
+---
+interface Props {
+  id: string; name: string; label: string;
+  as?: 'input' | 'select' | 'textarea';
+  type?: string; required?: boolean; hint?: string; autocomplete?: string; placeholder?: string;
+  options?: (string | { value: string; label: string })[]; min?: number; inputmode?: string; full?: boolean;
+}
+const { id, name, label, as = 'input', type = 'text', required = false, hint, autocomplete, placeholder, options = [], min, inputmode, full } = Astro.props;
+const described = [hint ? `${id}-hint` : '', `${id}-error`].filter(Boolean).join(' ');
+const opts = options.map((o) => (typeof o === 'string' ? { value: o, label: o } : o));
+---
+<div class:list={['field', { full }]}>
+  <label for={id}>{label}{required && <span class="req"> *<span class="visually-hidden">(required)</span></span>}</label>
+  {hint && <span class="hint" id={`${id}-hint`}>{hint}</span>}
+  {as === 'textarea' ? (
+    <textarea id={id} name={name} required={required} aria-describedby={described} placeholder={placeholder} data-min={min} />
+  ) : as === 'select' ? (
+    <select id={id} name={name} required={required} aria-describedby={described}>
+      <option value="">Select…</option>
+      {opts.map((o) => <option value={o.value}>{o.label}</option>)}
+    </select>
+  ) : (
+    <input id={id} name={name} type={type} required={required} autocomplete={autocomplete} placeholder={placeholder} aria-describedby={described} inputmode={inputmode} />
+  )}
+  <span class="error" id={`${id}-error`} aria-live="polite"></span>
+</div>

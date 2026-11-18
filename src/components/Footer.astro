@@ -1,0 +1,51 @@
+---
+import Logo from './Logo.astro';
+import Icon from './Icon.astro';
+import { site, fullAddress, nav } from '../data/site';
+const services = nav[0].children ?? [];
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <div class="wrap top">
+    <div>
+      <Logo />
+      <p>Geotechnical engineering, construction materials testing, geotechnical and environmental drilling, and environmental engineering for projects across Dallas–Fort Worth and North Texas.</p>
+      <p class="small">Texas Registered Engineering Firm F-24443 · MBE certified</p>
+    </div>
+    <nav aria-labelledby="f-services">
+      <h2 id="f-services">Services</h2>
+      <ul>
+        {services.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+        <li><a href="/services/">All services</a></li>
+      </ul>
+    </nav>
+    <nav aria-labelledby="f-company">
+      <h2 id="f-company">Company</h2>
+      <ul>
+        <li><a href="/about/">About</a></li>
+        <li><a href="/projects/">Projects</a></li>
+        <li><a href="/industries/">Industries</a></li>
+        <li><a href="/service-area/">Service area</a></li>
+        <li><a href="/career/">Careers</a></li>
+        <li><a href="/request-a-proposal/">Request a proposal</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </nav>
+    <div>
+      <h2>Contact</h2>
+      <address>
+        <a href={site.mapsUrl} rel="noopener" target="_blank">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}</a>
+        <a href={site.phone.href}>{site.phone.display}</a>
+        <a href={`mailto:${site.email}`}>{site.email}</a>
+        <span>{site.hours.days}<br />{site.hours.time}</span>
+      </address>
+    </div>
+  </div>
+  <div class="wrap bottom">
+    <span>© {year} {site.legalName}. All rights reserved.</span>
+    <ul>
+      <li><a href="/privacy-policy/">Privacy &amp; terms</a></li>
+      <li><a href="/sitemap-index.xml">Sitemap</a></li>
+    </ul>
+  </div>
+</footer>

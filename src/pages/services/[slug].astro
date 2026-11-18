@@ -1,0 +1,170 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/PageHero.astro';
+import ServiceArt from '../../components/art/ServiceArt.astro';
+import ServiceCard from '../../components/ServiceCard.astro';
+import Strata from '../../components/Strata.astro';
+import Faq from '../../components/Faq.astro';
+import Icon from '../../components/Icon.astro';
+import { services, serviceBySlug, type Service } from '../../data/services';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return services.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+interface Props { service: Service }
+const { service: s } = Astro.props;
+const crumbs = [{ name: 'Services', href: '/services/' }, { name: s.name, href: s.href }];
+const siteUrl = Astro.site!;
+const schema = [
+  {
+    '@type': 'Service',
+    '@id': new URL(`${s.href}#service`, siteUrl).href,
+    name: s.name,
+    serviceType: s.name,
+    description: s.seoDescription,
+    url: new URL(s.href, siteUrl).href,
+    provider: { '@id': new URL('/#organization', siteUrl).href },
+    areaServed: [{ '@type': 'Place', name: 'Dallas–Fort Worth Metroplex' }, { '@type': 'Place', name: 'North Texas' }],
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: `${s.name} services`,
+      itemListElement: s.scopes.map((sc) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: sc.title } })),
+    },
+  },
+  {
+    '@type': 'FAQPage',
+    mainEntity: s.faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+  },
+];
+const related = s.related.map(serviceBySlug);
+const glance: Record<string, { k: string; v: string }[]> = {
+  'geotechnical-engineering': [
+    { k: 'Responsible engineer', v: site.principal.name },
+    { k: 'Standards', v: 'ASTM, AASHTO, TxDOT, IBC, NCTCOG' },
+    { k: 'Drilling', v: 'In-house, with our own CME-55 rig' },
+    { k: 'Service area', v: 'Dallas–Fort Worth and North Texas; Texas projects on request' },
+  ],
+  'construction-materials-testing': [
+    { k: 'Scheduling', v: 'At least 24 hours’ notice' },
+    { k: 'Special inspection', v: 'Under International Building Code requirements' },
+    { k: 'Standards', v: 'ASTM, AASHTO, TxDOT, IBC, NCTCOG' },
+    { k: 'Service area', v: 'Dallas–Fort Worth and North Texas' },
+  ],
+  'geotechnical-drilling': [
+    { k: 'Equipment', v: 'Company-owned CME-55 truck-mounted drill rig' },
+    { k: 'Sampling', v: 'Shelby tube, SPT, disturbed and undisturbed' },
+    { k: 'Before mobilizing', v: 'Utility clearance' },
+    { k: 'Service area', v: 'Dallas–Fort Worth and surrounding North Texas' },
+  ],
+  'environmental-engineering': [
+    { k: 'Focus', v: 'Site condition evaluation and potential environmental concerns' },
+    { k: 'Sampling', v: 'Soil and groundwater, with our own drilling crew' },
+    { k: 'Scope', v: 'Defined around your buyer, lender or agency requirements' },
+    { k: 'Service area', v: 'Dallas–Fort Worth and North Texas' },
+  ],
+};
+---
+<Base title={s.seoTitle} description={s.seoDescription} crumbs={crumbs} schema={schema}>
+  <PageHero title={s.h1} lead={s.lead} kicker="Services" crumbs={crumbs}>
+    <div slot="actions" class="btn-row">
+      <a class="btn" href={`/request-a-proposal/?service=${s.slug}`}>Request a proposal <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href={site.phone.href}><Icon name="phone" />{site.phone.display}</a>
+    </div>
+    <ServiceArt slot="art" kind={s.art} />
+  </PageHero>
+
+  <section class="band" aria-labelledby="overview">
+    <div class="wrap two-col wide-left">
+      <div>
+        <h2 id="overview">Overview</h2>
+        {s.intro.map((p) => <p>{p}</p>)}
+      </div>
+      <aside class="card glance" aria-labelledby="glance-title">
+        <h3 id="glance-title">At a glance</h3>
+        <dl>
+          {glance[s.slug].map((g) => <div><dt>{g.k}</dt><dd>{g.v}</dd></div>)}
+        </dl>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="scope-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Scope</p>
+          <h2 id="scope-title">What we provide</h2>
+        </div>
+        <p class="lead">{s.summary}</p>
+      </div>
+      <div class="scope">
+        {s.scopes.map((sc, i) => (
+          <div><span class="n">{String(i + 1).padStart(2, '0')}</span><div><h3>{sc.title}</h3><p>{sc.text}</p></div></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="deliv-title">
+    <div class="wrap two-col">
+      <div>
+        <p class="kicker">Deliverables</p>
+        <h2 id="deliv-title">{s.deliverablesTitle}</h2>
+        <ul class="checklist">{s.deliverables.map((d) => <li>{d}</li>)}</ul>
+      </div>
+      <div class="grid aud-list">
+        {s.audiences.map((a) => (
+          <article class="card"><h3>{a.title}</h3><p class="muted">{a.text}</p></article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--ink" aria-labelledby="proc-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="kicker">Process</p>
+          <h2 id="proc-title">How {s.name.toLowerCase()} works with us</h2>
+        </div>
+      </div>
+      <Strata steps={s.process} label={`${s.name} process`} />
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="faq-title">
+    <div class="wrap two-col wide-left">
+      <div>
+        <p class="kicker">Questions</p>
+        <h2 id="faq-title">{s.name}: frequently asked questions</h2>
+        <Faq items={s.faqs} />
+      </div>
+      <aside class="card ask sticky-aside">
+        <h3>Have a question about your site?</h3>
+        <p class="muted">Talk it through with the engineer responsible for the work.</p>
+        <p><a class="link-arrow" href={site.phone.href}><Icon name="phone" />{site.phone.display}</a></p>
+        <p><a class="link-arrow" href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a></p>
+        <p class="small muted">{site.hours.days}, {site.hours.time}</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="rel-title">
+    <div class="wrap">
+      <div class="section-head"><div><p class="kicker">Related services</p><h2 id="rel-title">Often paired with {s.name.toLowerCase()}</h2></div></div>
+      <div class="grid grid-2">{related.map((r) => <ServiceCard service={r} />)}</div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .glance h3 { margin-bottom: 14px; }
+  .glance dl { margin: 0; display: grid; gap: 0; }
+  .glance dl div { padding: 14px 0; border-top: 1px solid var(--line); display: grid; gap: 2px; }
+  .glance dt { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+  .glance dd { margin: 0; font-weight: 500; }
+  .aud-list { gap: 16px; }
+  .ask .link-arrow svg { width: 18px; height: 18px; }
+  .ask p { margin-bottom: 10px; }
+</style>

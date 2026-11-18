@@ -1,0 +1,30 @@
+---
+// Wraps a form with the error summary, status box, honeypot and the shared form script.
+interface Props { name: string; submitLabel: string; note?: string }
+const { name, submitLabel, note } = Astro.props;
+const endpointSet = !!(import.meta.env.PUBLIC_FORM_ENDPOINT || '').trim();
+---
+<div class="form-wrap">
+  <form class="form" data-form={name} method="post" action="#" enctype="multipart/form-data" novalidate>
+    <div class="error-summary" role="alert"></div>
+    <slot />
+    <div class="honey" aria-hidden="true"><label>Leave this field empty<input type="text" name="company_website" tabindex="-1" autocomplete="off" /></label></div>
+    <div class="form-actions">
+      <button class="btn" type="submit">{submitLabel}</button>
+      <p class="small muted">
+        {note ?? 'We use your details only to respond to this request.'} See our <a href="/privacy-policy/">privacy policy</a>.
+        {!endpointSet && <span class="demo-note"> Preview build: submissions are validated but not yet delivered.</span>}
+      </p>
+    </div>
+  </form>
+  <div class="form-status" role="status" aria-live="polite"></div>
+</div>
+<style>
+  .demo-note { display: block; margin-top: 4px; }
+  .form-wrap :global(.sent-list) { margin: 10px 0 0; padding-left: 1.1em; font-size: 0.95rem; }
+  .form-wrap :global(.form-status details) { margin: 0 0 14px; }
+  .form-wrap :global(.form-status summary) { cursor: pointer; font-weight: 600; }
+</style>
+<script>
+  import '../../scripts/forms.ts';
+</script>

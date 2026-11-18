@@ -1,0 +1,135 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import Faq from '../components/Faq.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'About', href: '/about/' }];
+const faqs = [
+  { q: 'What does a geotechnical engineering firm do?', a: 'Before construction, a geotechnical firm drills borings, recovers soil and rock samples and tests them in the laboratory to understand site conditions. Those results determine the foundation design, earthwork requirements and suitable materials. During construction, materials testing confirms the work is built to those recommendations.' },
+  { q: 'Is MAK Lonestar a registered engineering firm?', a: `Yes. MAK Lonestar Consulting, LLC is registered with the Texas Board of Professional Engineers and Land Surveyors as engineering firm ${site.firmRegistration}, and every project is completed under the responsible charge of a licensed Texas Professional Engineer.` },
+  { q: 'Where do you work?', a: 'We are based in Irving and work throughout the Dallas–Fort Worth Metroplex and North Texas. We also take on projects elsewhere in Texas.' },
+  { q: 'Who are your clients?', a: 'Developers and property owners, general contractors, architects and structural engineers, and municipal and public agencies.' },
+];
+const schema = [{ '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
+  { '@type': 'AboutPage', name: 'About MAK Lonestar Consulting', url: new URL('/about/', Astro.site!).href, about: { '@id': new URL('/#organization', Astro.site!).href } }];
+const principles = [
+  { t: 'One team, start to finish', d: 'A project stays with the same people from the first phone call to the final report. No handoffs between a drill crew, a lab and an engineering group that never met.' },
+  { t: 'Site-specific answers', d: 'Conclusions are drawn from your site’s data, not carried over from the property next door. When a site needs more investigation, we say so.' },
+  { t: 'Involved through construction', d: 'The firm that writes the recommendations stays on to verify them through materials testing and field observation.' },
+  { t: 'A partner, not a vendor', d: 'Different starting points, the same goal: a structure that performs. We explain what we find in plain language and stay reachable.' },
+];
+const creds = [
+  { t: 'Texas Registered Engineering Firm', v: `TBPE Firm No. ${site.firmRegistration}`, d: 'Registered with the Texas Board of Professional Engineers and Land Surveyors.' },
+  { t: 'Licensed Professional Engineer', v: site.principal.name, d: 'Every MAK Lonestar project is completed under his Texas PE licensure.' },
+  { t: 'Minority Business Enterprise', v: 'MBE certified', d: 'Supports supplier-diversity participation goals on qualifying public and private projects.' },
+  { t: 'Recognized test methods', v: 'ASTM · AASHTO · TxDOT · IBC · NCTCOG', d: 'Field and laboratory procedures follow the standards each project specifies.' },
+];
+---
+<Base
+  title="About MAK Lonestar | Irving, TX Geotechnical Engineering Firm"
+  description="Texas-registered engineering firm (F-24443) in Irving, founded in 2022 and led by a licensed P.E. with 15+ years of geotechnical experience."
+  crumbs={crumbs}
+  schema={schema}
+>
+  <PageHero
+    title="A licensed Texas engineering firm built around one accountable team"
+    lead={`MAK Lonestar Consulting, LLC is an Irving-based engineering firm founded in ${site.founded}. We provide geotechnical engineering, construction materials testing, drilling and environmental engineering for contractors, developers, design professionals and public agencies across Dallas–Fort Worth.`}
+    kicker="About"
+    crumbs={crumbs}
+  >
+    <div slot="actions" class="btn-row">
+      <a class="btn" href="/request-a-proposal/">Request a proposal <Icon name="arrow" /></a>
+      <a class="btn btn--ghost" href="/contact/">Contact us</a>
+    </div>
+  </PageHero>
+
+  <section class="band" aria-labelledby="story-title">
+    <div class="wrap two-col wide-left">
+      <div>
+        <p class="kicker">Our story</p>
+        <h2 id="story-title">Local knowledge, professional accountability</h2>
+        <p>MAK Lonestar was founded in {site.founded} by {site.founder} to give North Texas builders a geotechnical and testing partner that stays close to the work. The firm is registered with the Texas Board of Professional Engineers and Land Surveyors (Firm No. {site.firmRegistration}) and operates from its office at {site.address.street} in Irving.</p>
+        <p>Our work is grounded in the conditions builders actually face here: expansive clays, weathered shale and limestone, undocumented fill and variable groundwater. We run our own truck-mounted drill rig, so field work, laboratory testing and engineering stay coordinated, and the people who drill your site are accountable to the engineer who signs the report.</p>
+      </div>
+      <aside class="card principal">
+        <div class="mono" aria-hidden="true">MK</div>
+        <p class="kicker">Principal engineer</p>
+        <h3>{site.principal.name}</h3>
+        <p class="muted">{site.principal.title}</p>
+        <p>{site.principal.name.split(',')[0]} holds a {site.principal.education.toLowerCase()} and has more than 15 years of geotechnical engineering experience. Every MAK Lonestar project is completed under his Texas PE licensure.</p>
+        <p class="small muted">Licenses can be verified with the <a href="https://pels.texas.gov/" target="_blank" rel="noopener">Texas Board of Professional Engineers and Land Surveyors<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="cred-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">Credentials</p><h2 id="cred-title">Registrations and certifications</h2></div>
+        <p class="lead">The credentials that matter when you are choosing who will put their name on your foundation recommendations.</p>
+      </div>
+      <div class="grid grid-4">
+        {creds.map((c) => (
+          <article class="card cred">
+            <Icon name="shield" class="cred-i" />
+            <h3>{c.t}</h3>
+            <p class="cred-v">{c.v}</p>
+            <p class="muted small">{c.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="how-title">
+    <div class="wrap">
+      <div class="section-head">
+        <div><p class="kicker">How we work</p><h2 id="how-title">What clients can expect</h2></div>
+      </div>
+      <div class="grid grid-2">
+        {principles.map((p, i) => (
+          <article class="principle">
+            <span class="pn">{String(i + 1).padStart(2, '0')}</span>
+            <div><h3>{p.t}</h3><p class="muted">{p.d}</p></div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="band band--stone" aria-labelledby="faq-title">
+    <div class="wrap two-col wide-left">
+      <div>
+        <p class="kicker">Questions</p>
+        <h2 id="faq-title">Frequently asked questions</h2>
+        <Faq items={faqs} />
+      </div>
+      <aside class="card sticky-aside">
+        <h3>Visit or call the office</h3>
+        <address class="addr">
+          <a href={site.mapsUrl} target="_blank" rel="noopener"><Icon name="pin" />{site.address.street}, {site.address.city}, {site.address.region} {site.address.postalCode}</a>
+          <a href={site.phone.href}><Icon name="phone" />{site.phone.display}</a>
+          <a href={`mailto:${site.email}`}><Icon name="mail" />{site.email}</a>
+          <span><Icon name="clock" />{site.hours.days}, {site.hours.time}</span>
+        </address>
+      </aside>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .principal { position: relative; }
+  .mono { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--on-ink); font: 650 1.4rem/1 var(--font-head); font-stretch: 115%; margin-bottom: 18px; border: 4px solid var(--clay-soft); }
+  .principal h3 { font-size: 1.5rem; margin-bottom: 2px; }
+  .cred { display: flex; flex-direction: column; }
+  .cred :global(.cred-i) { width: 30px; height: 30px; color: var(--clay-dark); margin-bottom: 16px; }
+  .cred h3 { font-size: 1.1rem; }
+  .cred-v { font-weight: 650; margin-bottom: 8px; }
+  .principle { display: grid; grid-template-columns: 56px minmax(0, 1fr); gap: 18px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .pn { font: 650 1.5rem/1 var(--font-head); font-stretch: 115%; color: var(--clay); }
+  .addr { font-style: normal; display: grid; gap: 14px; margin-top: 8px; }
+  .addr a, .addr span { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; text-decoration: none; color: var(--text); }
+  .addr a:hover { color: var(--clay-dark); text-decoration: underline; }
+  .addr :global(svg) { width: 20px; height: 20px; margin-top: 2px; color: var(--clay-dark); }
+</style>

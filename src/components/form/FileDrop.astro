@@ -1,0 +1,18 @@
+---
+import Icon from '../Icon.astro';
+interface Props { id: string; name: string; label: string; accept: string; maxMb?: number; maxFiles?: number; multiple?: boolean; required?: boolean; hint?: string }
+const { id, name, label, accept, maxMb = 25, maxFiles = 5, multiple = true, required = false, hint } = Astro.props;
+const exts = accept.split(',').map((a) => a.trim().replace('.', '').toUpperCase()).join(', ');
+---
+<div class="field" data-max-mb={maxMb} data-max-files={maxFiles}>
+  <label for={id}>{label}{required && <span class="req"> *<span class="visually-hidden">(required)</span></span>}</label>
+  {hint && <span class="hint" id={`${id}-hint`}>{hint}</span>}
+  <div class="drop">
+    <Icon name="upload" />
+    <strong>Drag files here or choose files</strong>
+    <span class="small muted">{exts} · up to {maxMb} MB each{multiple ? ` · up to ${maxFiles} files` : ''}</span>
+    <input id={id} name={name} type="file" accept={accept} multiple={multiple} required={required} aria-describedby={`${hint ? `${id}-hint ` : ''}${id}-error`} />
+  </div>
+  <ul class="file-list" aria-live="polite"></ul>
+  <span class="error" id={`${id}-error`} aria-live="polite"></span>
+</div>

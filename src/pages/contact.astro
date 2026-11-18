@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/PageHero.astro';
+import FormShell from '../components/form/FormShell.astro';
+import Field from '../components/form/Field.astro';
+import Icon from '../components/Icon.astro';
+import OfficeMap from '../components/art/OfficeMap.astro';
+import { site } from '../data/site';
+const crumbs = [{ name: 'Contact', href: '/contact/' }];
+const schema = [{ '@type': 'ContactPage', name: 'Contact MAK Lonestar Consulting', url: new URL('/contact/', Astro.site!).href, about: { '@id': new URL('/#organization', Astro.site!).href } }];
+---
+<Base
+  title="Contact MAK Lonestar | Irving, TX Geotechnical & Testing Firm"
+  description={`Call ${site.phone.display}, email ${site.email} or visit our Irving office. Geotechnical engineering and materials testing for Dallas–Fort Worth.`}
+  crumbs={crumbs}
+  schema={schema}
+  cta={false}
+>
+  <PageHero
+    title="Contact MAK Lonestar"
+    lead="Questions about a site, a testing schedule or an existing report? Reach the team directly. For a new project, the proposal form lets you attach plans."
+    kicker="Contact"
+    crumbs={crumbs}
+  >
+    <div slot="actions" class="btn-row">
+      <a class="btn" href="/request-a-proposal/">Request a proposal <Icon name="arrow" /></a>
+    </div>
+  </PageHero>
+
+  <section class="band band--tight">
+    <div class="wrap">
+      <ul class="contact-cards">
+        <li class="card"><Icon name="phone" /><h2 class="h3">Call</h2><a href={site.phone.href}>{site.phone.display}</a><span class="small muted">{site.hours.days}, {site.hours.time}</span></li>
+        <li class="card"><Icon name="mail" /><h2 class="h3">Email</h2><a href={`mailto:${site.email}`}>{site.email}</a><span class="small muted">For reports, scheduling and general questions</span></li>
+        <li class="card"><Icon name="pin" /><h2 class="h3">Office</h2><a href={site.mapsUrl} target="_blank" rel="noopener">{site.address.street}<br />{site.address.city}, {site.address.region} {site.address.postalCode}<span class="visually-hidden"> (opens Google Maps in a new tab)</span></a><span class="small muted">Irving, in the heart of the Metroplex</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="band band--stone">
+    <div class="wrap two-col">
+      <div>
+        <h2>Send a message</h2>
+        <p class="muted">For general questions and testing requests. We reply during business hours.</p>
+        <FormShell name="contact" submitLabel="Send message">
+          <div class="row">
+            <Field id="c-name" name="name" label="Full name" required autocomplete="name" />
+            <Field id="c-company" name="company" label="Company" autocomplete="organization" />
+          </div>
+          <div class="row">
+            <Field id="c-email" name="email" label="Email" type="email" required autocomplete="email" inputmode="email" />
+            <Field id="c-phone" name="phone" label="Phone" type="tel" autocomplete="tel" inputmode="tel" />
+          </div>
+          <Field id="c-topic" name="topic" label="Topic" as="select" required options={['General question', 'Schedule materials testing', 'Question about a report', 'New project or proposal', 'Careers', 'Other']} />
+          <Field id="c-message" name="message" label="Message" as="textarea" required min={10} />
+        </FormShell>
+      </div>
+      <div class="map-col">
+        <div class="map-frame"><OfficeMap /></div>
+        <p class="small muted">Schematic map, not to scale. <a href={site.mapsUrl} target="_blank" rel="noopener">Open directions in Google Maps<span class="visually-hidden"> (opens in a new tab)</span></a>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .h3 { font-size: 1.15rem; margin: 10px 0 6px; }
+  .contact-cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+  .contact-cards li { display: flex; flex-direction: column; gap: 4px; }
+  .contact-cards :global(svg) { width: 28px; height: 28px; color: var(--clay-dark); }
+  .contact-cards a { font-weight: 600; font-size: 1.1rem; color: var(--text); text-decoration-color: var(--clay); }
+  @media (max-width: 860px) { .contact-cards { grid-template-columns: minmax(0, 1fr); } }
+  .map-frame { border-radius: var(--radius-lg); overflow: hidden; background: var(--ink); aspect-ratio: 1 / 1; margin-bottom: 12px; }
+  .map-col { position: sticky; top: 110px; }
+  @media (max-width: 900px) { .map-col { position: static; } }
+</style>
