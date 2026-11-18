@@ -49,7 +49,7 @@ export const nav = [
   },
   { label: 'Projects', href: '/projects/' },
   { label: 'Industries', href: '/industries/' },
-  { label: 'Service area', href: '/service-area/' },
+  { label: 'Service Area', href: '/service-area/' },
   { label: 'About', href: '/about/' },
   { label: 'Careers', href: '/career/' },
   { label: 'Contact', href: '/contact/' },
