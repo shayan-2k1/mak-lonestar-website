@@ -22,7 +22,9 @@ export default function basePath() {
           if (statSync(p).isDirectory()) return walk(p);
           if (!/\.(html|css)$/.test(p)) return;
           const s = readFileSync(p, 'utf8');
-          const out = p.endsWith('.html') ? s.replace(attr, `$1${base}/`).replace(css, `url($1${base}/`) : s.replace(css, `url($1${base}/`);
+          const fixSrcset = (html) => html.replace(/(\ssrcset=")([^"]*)"/g, (m, a, list) =>
+            `${a}${list.split(',').map((c) => c.trim().replace(new RegExp(`^\\/(?!\\/|${esc.slice(1)}\\/)`), `${base}/`)).join(', ')}"`);
+          const out = p.endsWith('.html') ? fixSrcset(s.replace(attr, `$1${base}/`).replace(css, `url($1${base}/`)) : s.replace(css, `url($1${base}/`);
           if (out !== s) writeFileSync(p, out);
         });
         walk(root);
