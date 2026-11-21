@@ -1,0 +1,52 @@
+---
+// Framed headshot of the principal engineer: offset clay block, corner bracket, name caption.
+import { site } from '../data/site';
+interface Props { id?: string; eager?: boolean }
+const { id = 'principal-caption', eager = false } = Astro.props;
+---
+<figure class="pp" aria-labelledby={id}>
+  <span class="pp-block" aria-hidden="true"></span>
+  <span class="pp-corner" aria-hidden="true"></span>
+  <div class="pp-photo">
+    <img
+      src={site.principal.photo}
+      width="459" height="456"
+      loading={eager ? 'eager' : 'lazy'} decoding="async"
+      alt={`${site.principal.name}, ${site.principal.title} at MAK Lonestar Consulting`}
+    />
+    <figcaption id={id}>
+      <b>{site.principal.name}</b>
+      <span>{site.principal.title}</span>
+    </figcaption>
+  </div>
+</figure>
+
+<style>
+  .pp { position: relative; margin: 0; padding: 22px 22px 24px 24px; isolation: isolate; }
+  .pp-block {
+    position: absolute; left: 0; bottom: 0; width: 72%; height: 64%; z-index: -1;
+    background: var(--clay); border-radius: 0 0 0 20px;
+  }
+  /* thin soil-layer lines on the block, echoing the strata used across the site */
+  .pp-block::after {
+    content: ''; position: absolute; inset: 0; border-radius: inherit;
+    background: repeating-linear-gradient(0deg, transparent 0 14px, rgb(255 255 255 / 9%) 14px 15px);
+  }
+  .pp-corner {
+    position: absolute; top: 0; right: 0; width: 30%; height: 26%; z-index: -1;
+    border-top: 3px solid var(--ink); border-right: 3px solid var(--ink);
+  }
+  .pp-photo {
+    position: relative; overflow: hidden; border-radius: 0 20px 0 0; background: var(--ink);
+    box-shadow: 0 18px 40px rgb(19 32 27 / 22%);
+  }
+  .pp-photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1.08; object-fit: cover; object-position: 50% 22%; }
+  figcaption {
+    position: absolute; left: 0; right: 0; bottom: 0; padding: 64px 24px 20px;
+    background: linear-gradient(to bottom, rgb(19 32 27 / 0%), rgb(19 32 27 / 88%) 55%, rgb(19 32 27 / 96%));
+    display: grid; gap: 4px;
+  }
+  figcaption b { color: #fff; font: 650 clamp(1.15rem, 1rem + 0.6vw, 1.45rem)/1.15 var(--font-head); font-stretch: 110%; }
+  figcaption span { color: #f0a47c; font-weight: 600; font-size: 0.9rem; }
+  @media (max-width: 600px) { figcaption { padding: 44px 18px 16px; } .pp { padding: 16px 16px 18px 18px; } }
+</style>

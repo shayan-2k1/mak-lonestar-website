@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import HeroScene from '../components/art/HeroScene.astro';
 import ServiceArt from '../components/art/ServiceArt.astro';
 import Icon from '../components/Icon.astro';
+import PrincipalPhoto from '../components/PrincipalPhoto.astro';
 import Strata from '../components/Strata.astro';
 import Testimonials from '../components/Testimonials.astro';
 import ProjectCard from '../components/ProjectCard.astro';
@@ -105,16 +106,13 @@ const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
           <li><b>With you through construction</b>The same firm that wrote the recommendations verifies them in the field.</li>
         </ul>
       </div>
-      <aside class="card principal" aria-labelledby="principal-name">
-        <img class="principal-photo" src={site.principal.photo} width="459" height="456" loading="lazy" decoding="async" alt={`${site.principal.name}, ${site.principal.title} at MAK Lonestar Consulting`} />
-        <p class="kicker">Responsible engineer</p>
-        <h3 id="principal-name">{site.principal.name}</h3>
-        <p class="muted">{site.principal.title}</p>
+      <aside class="principal" aria-labelledby="home-principal">
+        <PrincipalPhoto id="home-principal" />
         <dl class="facts">
           <div><dt>Experience</dt><dd>{site.principal.experience} in geotechnical engineering</dd></div>
           <div><dt>Education</dt><dd>{site.principal.education}</dd></div>
           <div><dt>Licensure</dt><dd>Texas Professional Engineer; every project completed under his licensure</dd></div>
-          <div><dt>Firm</dt><dd>TBPE Registered Engineering Firm F-24443</dd></div>
+          <div><dt>Firm</dt><dd>TBPE Registered Engineering Firm <span class="nowrap">F-24443</span></dd></div>
         </dl>
         <a class="link-arrow" href="/about/">About the firm <Icon name="arrow" /></a>
       </aside>
@@ -242,12 +240,9 @@ const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
 
   .creds-band { padding-top: clamp(24px, 3vw, 40px); }
   .why-list { margin-top: 28px; gap: 18px; }
-  .principal { padding: 0; overflow: hidden; }
-  .principal > :not(.principal-photo) { margin-inline: clamp(22px, 2.4vw, 32px); }
-  .principal > :last-child { margin-bottom: clamp(22px, 2.4vw, 32px); }
-  .principal .kicker { margin-top: 24px; }
-  .principal-photo { width: 100%; height: auto; aspect-ratio: 459 / 400; object-fit: cover; object-position: 50% 20%; }
-  .principal h3 { font-size: 1.5rem; margin-bottom: 2px; }
+  .principal { max-width: 500px; justify-self: end; width: 100%; }
+  .principal .facts, .principal .link-arrow { margin-left: 24px; }
+  .nowrap { white-space: nowrap; }
   .facts { margin: 22px 0 24px; display: grid; gap: 14px; }
   .facts div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }
   .facts dt { font-weight: 600; font-size: 0.9rem; color: var(--muted); }
