@@ -32,6 +32,7 @@ Existing URLs are kept wherever the live site already had them (`/about/`, `/con
 
 - **[Astro 7](https://astro.build)**, static output. Pages ship as plain HTML and CSS, with a few small scripts (menu, tabs, project filter, forms). No UI framework and no runtime dependencies.
 - **Fonts:** Archivo and Public Sans (SIL Open Font License), self-hosted Latin subsets in `public/fonts/`.
+- **Brand:** the firm's logo (black with a crimson star) sets the palette: near-black `#141416`, crimson `#990134`, warm paper `#f3f2ef`. Logo and headshot live in `public/images/`.
 - **Illustrations:** custom inline SVG (`src/components/art/`). No stock photos, no external image requests.
 - **SEO:** per-page titles and descriptions, canonical URLs, Open Graph and Twitter tags, JSON-LD (Organization/ProfessionalService, WebSite, Service, FAQPage, BreadcrumbList), `sitemap-index.xml`, `robots.txt`.
 

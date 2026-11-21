@@ -81,7 +81,8 @@ const rewrite = (html) => html
     return m;
   })
   .replace(/<li><a href="\/sitemap-index\.xml">Sitemap<\/a><\/li>/g, '')
-  .replace(/href="\/favicon\.svg"/g, 'href="favicon.svg"');
+  .replace(/href="\/favicon\.png"/g, 'href="favicon.png"')
+  .replace(/(src|srcset)="([^"]*)"/g, (m, a, v) => `${a}="${v.replace(/(^|\s)\/images\//g, '$1images/')}"`);
 
 let css = [...styles].join('\n').replace(/url\((['"]?)\/fonts\//g, 'url($1fonts/');
 const routerJs = `
@@ -136,5 +137,7 @@ rmSync(OUT, { recursive: true, force: true });
 mkdirSync(join(OUT, 'fonts'), { recursive: true });
 writeFileSync(join(OUT, 'index.html'), out);
 for (const f of readdirSync(join(DIST, 'fonts'))) copyFileSync(join(DIST, 'fonts', f), join(OUT, 'fonts', f));
-copyFileSync(join(DIST, 'favicon.svg'), join(OUT, 'favicon.svg'));
+copyFileSync(join(DIST, 'favicon.png'), join(OUT, 'favicon.png'));
+mkdirSync(join(OUT, 'images'), { recursive: true });
+for (const f of readdirSync(join(DIST, 'images'))) copyFileSync(join(DIST, 'images', f), join(OUT, 'images', f));
 console.log(`preview-bundle/index.html: ${sections.length} routes, ${(out.length / 1024).toFixed(0)} KB, ${dupes.size} shared ids namespaced`);

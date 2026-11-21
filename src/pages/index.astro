@@ -106,6 +106,7 @@ const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
         </ul>
       </div>
       <aside class="card principal" aria-labelledby="principal-name">
+        <img class="principal-photo" src={site.principal.photo} width="459" height="456" loading="lazy" decoding="async" alt={`${site.principal.name}, ${site.principal.title} at MAK Lonestar Consulting`} />
         <p class="kicker">Responsible engineer</p>
         <h3 id="principal-name">{site.principal.name}</h3>
         <p class="muted">{site.principal.title}</p>
@@ -210,8 +211,8 @@ const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
   .hero-copy { padding: clamp(48px, 7vw, 104px) clamp(20px, 3vw, 48px) clamp(48px, 7vw, 96px) var(--gutter); display: flex; flex-direction: column; justify-content: center; }
   .hero-copy h1 { font-size: clamp(2.1rem, 1.2rem + 3vw, 3.2rem); margin-bottom: 22px; }
   .hero-copy .lead { color: var(--on-ink-muted); margin-bottom: 32px; }
-  .hero .kicker { color: #f0a47c; }
-  .hero .btn--ghost { color: var(--on-ink); border-color: rgb(238 240 234 / 55%); }
+  .hero .kicker { color: #f58fa9; }
+  .hero .btn--ghost { color: var(--on-ink); border-color: rgb(240 240 242 / 55%); }
   .hero .btn--ghost:hover { background: var(--on-ink); color: var(--ink); }
   .hero-art { position: relative; min-height: 420px; margin-right: calc(-1 * max(0px, (100vw - var(--max) - 2 * var(--gutter)) / 2)); }
   .hero-art :global(svg) { position: absolute; inset: 0; }
@@ -227,7 +228,7 @@ const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
   .tablist button:hover { border-color: var(--ink); }
   .tablist button[aria-selected='true'] { background: var(--ink); border-color: var(--ink); color: #fff; }
   .tnum { font-size: 0.85rem; color: var(--muted); font-variant-numeric: tabular-nums; }
-  .tablist button[aria-selected='true'] .tnum { color: #cfd6d1; }
+  .tablist button[aria-selected='true'] .tnum { color: #d4d4d8; }
   .tabpanel { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; background: #fff; }
   .tabpanel[hidden] { display: none; }
   .tp-art { min-height: 300px; }
@@ -241,6 +242,11 @@ const featured = projects.filter((p) => p.region === 'Dallas–Fort Worth');
 
   .creds-band { padding-top: clamp(24px, 3vw, 40px); }
   .why-list { margin-top: 28px; gap: 18px; }
+  .principal { padding: 0; overflow: hidden; }
+  .principal > :not(.principal-photo) { margin-inline: clamp(22px, 2.4vw, 32px); }
+  .principal > :last-child { margin-bottom: clamp(22px, 2.4vw, 32px); }
+  .principal .kicker { margin-top: 24px; }
+  .principal-photo { width: 100%; height: auto; aspect-ratio: 459 / 400; object-fit: cover; object-position: 50% 20%; }
   .principal h3 { font-size: 1.5rem; margin-bottom: 2px; }
   .facts { margin: 22px 0 24px; display: grid; gap: 14px; }
   .facts div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 12px; padding-top: 14px; border-top: 1px solid var(--line); }

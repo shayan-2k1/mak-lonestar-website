@@ -13,7 +13,8 @@ const faqs = [
   { q: 'Who are your clients?', a: 'Developers and property owners, general contractors, architects and structural engineers, and municipal and public agencies.' },
 ];
 const schema = [{ '@type': 'FAQPage', mainEntity: faqs.map((f) => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) },
-  { '@type': 'AboutPage', name: 'About MAK Lonestar Consulting', url: abs('/about/'), about: { '@id': abs('/#organization') } }];
+  { '@type': 'AboutPage', name: 'About MAK Lonestar Consulting', url: abs('/about/'), about: { '@id': abs('/#organization') } },
+  { '@type': 'Person', '@id': abs('/about/#principal'), name: site.principal.name.replace(', P.E.', ''), honorificSuffix: 'P.E.', jobTitle: site.principal.title, image: abs(site.principal.photo), worksFor: { '@id': abs('/#organization') }, hasCredential: { '@type': 'EducationalOccupationalCredential', credentialCategory: 'license', name: 'Texas Professional Engineer' } }];
 const principles = [
   { t: 'One team, start to finish', d: 'A project stays with the same people from the first phone call to the final report. No handoffs between a drill crew, a lab and an engineering group that never met.' },
   { t: 'Site-specific answers', d: 'Conclusions are drawn from your site’s data, not carried over from the property next door. When a site needs more investigation, we say so.' },
@@ -54,7 +55,7 @@ const creds = [
         <p>Our work is grounded in the conditions builders actually face here: expansive clays, weathered shale and limestone, undocumented fill and variable groundwater. We run our own truck-mounted drill rig, so field work, laboratory testing and engineering stay coordinated, and the people who drill your site are accountable to the engineer who signs the report.</p>
       </div>
       <aside class="card principal">
-        <div class="mono" aria-hidden="true">MK</div>
+        <img class="principal-photo" src={site.principal.photo} width="459" height="456" loading="lazy" decoding="async" alt={`${site.principal.name}, ${site.principal.title} at MAK Lonestar Consulting`} />
         <p class="kicker">Principal engineer</p>
         <h3>{site.principal.name}</h3>
         <p class="muted">{site.principal.title}</p>
@@ -121,7 +122,11 @@ const creds = [
 
 <style>
   .principal { position: relative; }
-  .mono { width: 72px; height: 72px; border-radius: 50%; display: grid; place-items: center; background: var(--ink); color: var(--on-ink); font: 650 1.4rem/1 var(--font-head); font-stretch: 115%; margin-bottom: 18px; border: 4px solid var(--clay-soft); }
+  .principal { padding: 0; overflow: hidden; }
+  .principal > :not(.principal-photo) { margin-inline: clamp(22px, 2.4vw, 32px); }
+  .principal > :last-child { margin-bottom: clamp(22px, 2.4vw, 32px); }
+  .principal .kicker { margin-top: 24px; }
+  .principal-photo { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: 50% 25%; border-bottom: 4px solid var(--clay); }
   .principal h3 { font-size: 1.5rem; margin-bottom: 2px; }
   .cred { display: flex; flex-direction: column; }
   .cred :global(.cred-i) { width: 30px; height: 30px; color: var(--clay-dark); margin-bottom: 16px; }

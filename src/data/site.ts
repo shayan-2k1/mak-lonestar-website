@@ -10,7 +10,8 @@ export const site = {
   founded: '2022',
   firmRegistration: 'F-24443', // Texas PE Firm Registration No. (published on current site)
   principal: {
-    name: 'Muhammad A. Khan, P.E.', // CONFIRM preferred form (LinkedIn uses "Muhammad Awais Khan, P.E.")
+    name: 'Muhammad Awais Khan, P.E.', // form used on LinkedIn and TBPE records (current site shows "Muhammad A. Khan, P.E.")
+    photo: '/images/muhammad-awais-khan-pe.webp', // from the firm's current About page; request a higher-resolution original
     title: 'Principal Engineer',
     experience: '15+ years', // geotechnical experience, as published
     education: "Master's degree in civil engineering",
